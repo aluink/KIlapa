@@ -5,6 +5,7 @@ import java.util.Stack;
 
 import net.aluink.chess.suicide.ai.SuicidePlayer;
 import net.aluink.chess.suicide.ai.pn.PN2;
+import net.aluink.chess.suicide.ai.pn.PNNode;
 import net.aluink.chess.suicide.ai.pn.PNSearch;
 import net.aluink.chess.suicide.game.Board;
 import net.aluink.chess.suicide.game.Move;
@@ -53,11 +54,13 @@ public class Kilapa {
 					System.out.println(m);
 				}
 			} else if(command.equals("pn")){
-				int pn [] = new PNSearch().search(b, 400000, new SuicideLMG(), null, false);
-				System.out.println(pn[0] + " " + pn[1] + " " + (pn[2] >= 0 ? moves.get(pn[2]) : ""));
+				long start = System.currentTimeMillis();
+				int pn [] = new PNSearch().search(b, 400000, new SuicideLMG());				
+				System.out.println(pn[0] + " " + pn[1] + " " + (pn[2] >= 0 ? moves.get(pn[2]) : "") + " " + pn[3]);
+				System.out.println((pn[3]*1000) / (System.currentTimeMillis() - start));
 				b.makeMove(moves.get(pn[2]));
 			} else if(command.equals("pn2")){
-				int pn [] = new PN2().search(b, 400000, new SuicideLMG(), null, true);
+				int pn [] = new PN2().pn2Search(b, 400000, new SuicideLMG());
 				System.out.println(pn[0] + " " + pn[1] + " " + (pn[2] >= 0 ? moves.get(pn[2]) : ""));
 			} else {
 				try {

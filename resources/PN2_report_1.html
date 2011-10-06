@@ -1,0 +1,328 @@
+<html lang="en-US">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<head>
+<STYLE TYPE="text/css">
+p, table, td, th {  font-family: arial, helvetica, geneva; font-size: 10pt}
+body {  font-family: arial, helvetica, geneva; font-size: 10pt; clip:   rect(   ); margin-top: 5mm; margin-left: 3mm}
+</STYLE>
+</head>
+<body text="#000000" bgcolor="#ffffff">
+<caption align=top><B>
+net.aluink.chess.suicide.Kilapa at DSK048053 [ PID: 8024 ]
+</B></caption>
+<p><caption align=top><B>
+Execution Statistics
+</B></caption>
+<p><table border=0 cellspacing=2 cellpadding=2 WIDTH="100%">
+<tr width="10">
+<th align=left>Package</th>
+<th align=left>&lt;Base Time (seconds)</th>
+<th align=left>Cumulative Time (seconds)</th>
+<th align=left>Calls</th>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>net.aluink.chess.suicide.game.lmg</td><td align=left>141.433922</td><td align=left>227.181706</td><td align=left>423047</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;SuicideLMG</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;104.474815</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;227.181706</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;175341</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getLegalMoves(net.aluink.chess.suicide.game.Board) java.util.Stack</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;43.413235</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;227.181683</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1988</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getRayMoves(int, net.aluink.chess.suicide.game.lmg.SuicideLMG$AttackingStatus, java.util.List, java.util.List) void</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;14.237252</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;52.643362</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;11761</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getRayNotAttacking(int, int, net.aluink.chess.suicide.game.lmg.SuicideLMG$AttackingStatus, java.util.List) boolean</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;12.108766</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;53.382859</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;35040</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getPawnMove(int, int, java.util.List, boolean) void</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10.158079</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;14.786578</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;20755</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getRayAttacking(int, int, java.util.List) boolean</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7.410427</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;12.137251</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;21187</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getPawnAttack(int, int, net.aluink.chess.suicide.game.lmg.SuicideLMG$AttackingStatus, java.util.List, boolean) void</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.310205</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;20.792984</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;24495</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getBishopMoves(int, net.aluink.chess.suicide.game.lmg.SuicideLMG$AttackingStatus, java.util.List) void</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.276850</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;59.626677</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5886</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getPawnMoves(int, net.aluink.chess.suicide.game.lmg.SuicideLMG$AttackingStatus, java.util.List) void</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.774554</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;38.723377</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;13893</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getRookMoves(int, net.aluink.chess.suicide.game.lmg.SuicideLMG$AttackingStatus, java.util.List) void</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.152719</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;26.112297</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5874</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getKnightMoves(int, net.aluink.chess.suicide.game.lmg.SuicideLMG$AttackingStatus, java.util.List) void</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.340773</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;32.654942</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3390</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$SWITCH_TABLE$net$aluink$chess$board$Piece$Type() int[]</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.227198</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.227205</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;29082</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getKingMoves(int, net.aluink.chess.suicide.game.lmg.SuicideLMG$AttackingStatus, java.util.List) void</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.064732</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6.120398</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1988</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SuicideLMG()</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000024</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000024</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;CompoundBoundChecker</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;17.505079</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;20.034560</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;52453</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CompoundBoundChecker(java.util.List)</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10.237524</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10.237524</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;23545</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inBounds(int) boolean</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7.267555</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9.797037</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;28908</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;RayInfo</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;10.202020</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;10.202020</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;47041</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RayInfo(net.aluink.chess.suicide.game.lmg.BoundChecker, int)</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10.202020</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10.202020</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;47041</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;ModNotEqual</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;5.394524</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;5.394524</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;66391</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ModNotEqual(int, int)</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.505222</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.505222</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;35293</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inBounds(int) boolean</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.889302</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.889302</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;31098</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;LessThan</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;2.872170</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;2.872170</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;36884</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inBounds(int) boolean</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.563883</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.563883</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;19238</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LessThan(int)</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.308287</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.308287</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;17646</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;GreaterThan</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;0.929909</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;0.929909</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;41714</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;inBounds(int) boolean</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.516632</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.516632</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;24067</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GreaterThan(int)</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.413277</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.413277</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;17647</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;SuicideLMG$AttackingStatus</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;0.055404</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;0.055404</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;3223</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set() void</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.040088</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.040088</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1235</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SuicideLMG$AttackingStatus(net.aluink.chess.suicide.game.lmg.SuicideLMG)</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.015316</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.015316</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1988</td>
+</tr>
+<tr>
+<td align=left>net.aluink.chess.suicide.game</td><td align=left>86.899082</td><td align=left>93.176321</td><td align=left>524579</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;Board</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;48.406892</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;55.206663</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;444401</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getPos(int) net.aluink.chess.board.Piece</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;19.799653</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;19.799653</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;267028</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getTurn() net.aluink.chess.board.Piece$Color</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10.113831</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10.113831</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;114553</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unsetPos(int) void</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.361012</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9.786445</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3875</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;enPassantAvailable() boolean</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.331488</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.342039</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;24495</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getEnpassantPos() int</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.342998</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7.685037</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;24495</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unmakeMove() void</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.098914</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7.040601</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1476</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setPos(int, net.aluink.chess.board.Piece) void</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.987189</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9.301242</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3905</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;makeMove(net.aluink.chess.suicide.game.Move) void</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.291518</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10.490022</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1480</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printBoard() void</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.053440</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.056070</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;flipTurn() void</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.011147</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.011147</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2956</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;initHashPieces() long[][][][]</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.007409</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.007409</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Board()</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.004947</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.004947</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setFen(java.lang.String) void</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.002033</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.008949</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getFen() java.lang.String</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000531</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.001458</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$SWITCH_TABLE$net$aluink$chess$board$Piece$Color() int[]</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000346</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000359</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;64</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$SWITCH_TABLE$net$aluink$chess$board$Piece$Type() int[]</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000293</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000304</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;64</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;initHashTurns() long[]</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000063</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000063</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-clinit-()</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000059</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.007530</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setToStarting() void</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000024</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.008973</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;Move</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;38.273441</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;38.273896</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;76305</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Move(int, int, net.aluink.chess.board.Piece, boolean)</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;30.453974</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;30.454254</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;32976</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Move(int, int)</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7.520270</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;37.969652</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;31496</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getEnd() int</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.117163</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.117163</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5912</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Move(net.aluink.chess.suicide.game.Move)</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.096613</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.101660</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1480</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getStart() int</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.085343</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.085343</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4436</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;equals(java.lang.Object) boolean</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000072</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000072</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getByte() int</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000006</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000006</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;MoveInfo</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;0.218748</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;0.320408</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;3873</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MoveInfo(net.aluink.chess.suicide.game.Move, net.aluink.chess.board.Piece)</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.133561</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.235221</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1480</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getCapture() net.aluink.chess.board.Piece</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.085187</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.085187</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2393</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>net.aluink.chess.suicide.ai.pn</td><td align=left>45.105996</td><td align=left>286.284911</td><td align=left>1004691</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;PNSearch</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;41.483880</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;286.245646</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;4646</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;init(int) net.aluink.chess.suicide.ai.pn.PNNode[]</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;41.326900</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;44.909745</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;findMostProvingNode(int) int</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.060516</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;180.523719</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2029</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;search(net.aluink.chess.suicide.game.Board, long, net.aluink.chess.suicide.game.lmg.LegalMoveGenerator, int, int, net.aluink.chess.suicide.ai.pn.PNNode[]) int[]</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.047472</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;236.170608</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;43</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;updateNodes(int) void</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.042039</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7.099072</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2024</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;expand(int) void</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.006765</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;59.969747</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;505</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PNSearch()</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000187</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000187</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;44</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;PNNode</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;3.582844</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;3.582844</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;1000000</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PNNode()</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.582844</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.582844</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1000000</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;PN2</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;0.039272</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;286.284911</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;45</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;subTreeSize(long) long</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.039237</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.039237</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;43</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PN2()</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000035</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000045</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pn2Search(net.aluink.chess.suicide.game.Board, long, net.aluink.chess.suicide.game.lmg.LegalMoveGenerator) int[]</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000000</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;286.284866</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+</tr>
+<tr>
+<td align=left>net.aluink.chess.board</td><td align=left>12.948991</td><td align=left>12.948991</td><td align=left>191834</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;Piece</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;11.408995</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;11.409216</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;160700</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getType() net.aluink.chess.board.Piece$Type</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.714909</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.714909</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;47790</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getColor() net.aluink.chess.board.Piece$Color</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.688871</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.688871</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;112737</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-clinit-()</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.004061</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.004351</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getFen() char</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000651</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000927</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;64</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$SWITCH_TABLE$net$aluink$chess$board$Piece$Type() int[]</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000268</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000277</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;64</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fromFen(char) net.aluink.chess.board.Piece</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000158</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000158</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;32</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Piece(net.aluink.chess.board.Piece$Color, net.aluink.chess.board.Piece$Type)</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000076</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000076</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;12</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;Piece$Color</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;1.421220</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;1.421220</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;15564</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getIndex() int</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.421135</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.421135</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15560</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-clinit-()</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000050</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000072</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Piece$Color(java.lang.String, int, int)</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000022</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000022</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;values() net.aluink.chess.board.Piece$Color[]</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000013</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000013</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;Piece$Type</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;0.118776</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;0.118776</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;15570</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getIndex() int</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.118609</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.118609</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15560</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-clinit-()</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000095</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000141</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Piece$Type(java.lang.String, int, int)</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000045</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000045</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;values() net.aluink.chess.board.Piece$Type[]</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000026</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000026</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>net.aluink.chess.suicide</td><td align=left>0.000010</td><td align=left>286.388001</td><td align=left>2</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;Kilapa</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;0.000010</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;286.388001</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;2</td>
+</tr>
+<tr BGCOLOR="#ffffbb">
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;validMove(int, int) boolean</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000010</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000010</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+</tr>
+<tr>
+<td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;main(java.lang.String[]) void</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.000000</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;286.388001</td><td align=left>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1</td>
+</tr>
+</table>
+</body>
+</html>

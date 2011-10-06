@@ -1,7 +1,5 @@
 package net.aluink.chess.suicide.ai.pn;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.Stack;
 
 import net.aluink.chess.board.Piece.Color;
@@ -10,84 +8,101 @@ import net.aluink.chess.suicide.game.Move;
 import net.aluink.chess.suicide.game.lmg.LegalMoveGenerator;
 
 public class PNSearch {
+	
+	int NODEPOOL;
+	PNNode [] NODES;
+	
 	PNNode root;
 	Color rootColor;
 	Board board;
 	LegalMoveGenerator lmg;
 	long nodecount;
-	boolean prune;
+	int endIndex;
+	
+	public static PNNode [] init(){
+		return init(1000000);
+	}
+	
+	public static PNNode [] init(int np){
+		PNNode [] nodes = new PNNode[np];
+		for(int i = 0;i < np;i++){
+			nodes[i] = new PNNode();
+		}
+		return nodes;
+	}
 	
 	public static final int INF = 300000;
 	
-	public int[] search(Board b, long maxNodecount, LegalMoveGenerator lmg, File f, boolean prune){
+	public int [] search(Board b, long maxNodeCount, LegalMoveGenerator lmg){
+		return search(b, maxNodeCount, lmg, 0, 1, init((int)maxNodeCount*2));
+	}
+	
+	public int[] search(Board b, long maxNodecount, LegalMoveGenerator lmg, int rIndex, int startIndex, PNNode [] nodes){
+		this.NODES = nodes;
 		board = b;
-		this.prune = prune;
+		this.endIndex = startIndex;
 		this.lmg = lmg;
 		rootColor = b.getTurn();
-		root = new PNNode();
+		root = NODES[rIndex];
+		int rootTmpParent = root.parent;
+		root.parent = -1;
 		nodecount = 0;
 		while(nodecount < maxNodecount && root.proof != 0 && root.disproof != 0){
-			PNNode node = findMostProvingNode(root);
+			int node = findMostProvingNode(rIndex);
 			expand(node);
-//			System.out.println("=======");
-//			board.printBoard();
 			updateNodes(node);
-//			board.printBoard();
-//			System.out.println("*******");
 		}
 		
 		int n = -1;
 		if(root.proof == 0){
-			for(n = 0;n < root.children.size();n++){
-				if(root.children.get(n).proof == 0)
+			n = root.firstChild;
+			while(n != -1){
+				if(NODES[n].proof == 0)
 					break;
+				n = NODES[n].sibling;
 			}
 		}
 		
-		int ret [] = {root.proof, root.disproof, n};
+		root.parent = rootTmpParent;
+		
+		int ret [] = {root.proof, root.disproof, n-root.firstChild, endIndex, (int)nodecount};
 		return ret;
 	}
 
-	void updateNodes(PNNode node) {
-		if(node.children != null){
+	void updateNodes(int index) {
+		PNNode node = NODES[index];
+		if(node.firstChild >= 0){
 			if(board.getTurn() == rootColor){
 				node.proof = INF;
 				node.disproof = 0;
-				for(PNNode n : node.children){
-					if(n.proof < node.proof){
-						node.proof = n.proof;
+				for(int i = node.firstChild;i >= 0;i = NODES[i].sibling){
+					PNNode tmp = NODES[i];
+					if(tmp.proof < node.proof){
+						node.proof = tmp.proof;
 					}
-					node.disproof += n.disproof;
-				}
-				if(prune && node.proof == 0 && node.parent != null){
-					node.disproof = INF;
-					nodecount -= node.children.size();
-					node.children = null;
+					node.disproof += tmp.disproof;
 				}
 			} else {
 				node.proof = 0;
 				node.disproof = INF;
-				for(PNNode n : node.children){
-					if(n.disproof < node.disproof){
-						node.disproof = n.disproof;
+				for(int i = node.firstChild;i >= 0;i = NODES[i].sibling){
+					PNNode tmp = NODES[i];
+					if(tmp.disproof < node.disproof){
+						node.disproof = tmp.disproof;
 					}
-					node.proof += n.proof;
-				}
-				if(prune && node.disproof == 0 && node.parent != null){
-					node.proof = INF;
-					nodecount -= node.children.size();
-					node.children = null;
+					node.proof += tmp.proof;
 				}
 			}
 		}
 			
-		if(node.parent != null){	
+		if(node.parent != -1){	
 			board.unmakeMove();
 			updateNodes(node.parent);
 		}
 	}
 
-	void expand(PNNode node) {
+	void expand(int index) {
+		PNNode node = NODES[index];
 		Stack<Move> moves = lmg.getLegalMoves(board);
 		if(moves.size() == 0){
 			if(board.getTurn() == rootColor){
@@ -99,42 +114,44 @@ public class PNSearch {
 			}
 				
 		} else {
-			node.children = new ArrayList<PNNode>(moves.size());
-			nodecount +=  moves.size();
-			for(int i = 0;i < moves.size();i++){
-				PNNode n = new PNNode();
-				n.parent = node;
-				node.children.add(n);
+			int n = NODES[index].firstChild = endIndex;
+			endIndex += moves.size();
+			PNNode tmp = null;
+			while(n < endIndex){
+				tmp = NODES[n];
+				tmp.parent = index;
+				tmp.proof = tmp.disproof = 1;
+				tmp.sibling = ++n;
+				tmp.firstChild = -1;
+				nodecount++;
 			}
+			tmp.sibling = -1;
 		}
 	}
 
-	PNNode findMostProvingNode(PNNode node) {
-		if(node.children == null){
-			return node;
+	int findMostProvingNode(int index) {
+		PNNode node = NODES[index];
+		if(node.firstChild < 0){
+			return index;
 		}
 		
 		Stack<Move> moves = lmg.getLegalMoves(board);
 		
-		PNNode n = node.children.get(0);
-		if(moves.size() == 0)
-			board.printBoard();
+		int n = node.firstChild;
 		Move m = moves.get(0);
 		
 		if(board.getTurn() == rootColor){
-			for(int i = 1;i < node.children.size();i++){
-				PNNode tmp = node.children.get(i);
+			for(int i = 0;n >= 0;n = NODES[n].sibling, i++){
+				PNNode tmp = NODES[n];
 				if(tmp.proof == node.proof){
-					n = tmp;
 					m = moves.get(i);
 					break;
 				}
 			}
 		} else {
-			for(int i = 1;i < node.children.size();i++){
-				PNNode tmp = node.children.get(i);
+			for(int i = 0;n >= 0;n = NODES[n].sibling, i++){
+				PNNode tmp = NODES[n];
 				if(tmp.disproof == node.disproof){
-					n = tmp;
 					m = moves.get(i);
 					break;
 				}
