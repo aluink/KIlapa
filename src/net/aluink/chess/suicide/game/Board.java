@@ -233,15 +233,19 @@ public class Board {
 		hash[1] ^= hashturns[1];
 	}
 	
+	public static void printBitboard(long b){
+		for(int row = 7;row >= 0;row--){
+			for(int col = 0;col < 8;col++){
+				System.out.print(b >> (row*8+col) & 1L);
+			}
+			System.out.println();
+		}
+	}
+	
 	public void printBitboards(){
 		for(int c = 0;c < 2;c++){
 			for(int p = 0;p < 6;p++){
-				for(int row = 7;row >= 0;row--){
-					for(int col = 0;col < 8;col++){
-						System.out.print(bitboards[c][p] >> (row*8+col) & 1L);
-					}
-					System.out.println();
-				}
+				printBitboard(bitboards[c][p]);
 				System.out.println("\n");
 			}
 		}
