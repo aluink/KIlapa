@@ -18,6 +18,73 @@ public class SuicideLMG implements LegalMoveGenerator {
 	
 	Board b;
 	
+	long [] kingMasks = {
+			770L,
+			1797L,
+			3594L,
+			7188L,
+			14376L,
+			28752L,
+			57504L,
+			49216L,
+			197123L,
+			460039L,
+			920078L,
+			1840156L,
+			3680312L,
+			7360624L,
+			14721248L,
+			12599488L,
+			50463488L,
+			117769984L,
+			235539968L,
+			471079936L,
+			942159872L,
+			1884319744L,
+			3768639488L,
+			3225468928L,
+			12918652928L,
+			30149115904L,
+			60298231808L,
+			120596463616L,
+			241192927232L,
+			482385854464L,
+			964771708928L,
+			825720045568L,
+			3307175149568L,
+			7718173671424L,
+			15436347342848L,
+			30872694685696L,
+			61745389371392L,
+			123490778742784L,
+			246981557485568L,
+			211384331665408L,
+			846636838289408L,
+			1975852459884544L,
+			3951704919769088L,
+			7903409839538176L,
+			15806819679076352L,
+			31613639358152704L,
+			63227278716305408L,
+			54114388906344448L,
+			216739030602088448L,
+			505818229730443264L,
+			1011636459460886528L,
+			2023272918921773056L,
+			4046545837843546112L,
+			8093091675687092224L,
+			-2260560722335367168L,
+			-4593460513685372928L,
+			144959613005987840L,
+			362258295026614272L,
+			724516590053228544L,
+			1449033180106457088L,
+			2898066360212914176L,
+			5796132720425828352L,
+			-6854478632857894912L,
+			4665729213955833856L
+	};
+
 	long [] knightMasks = {
 			132096L,
 			329728L,
@@ -385,31 +452,37 @@ public class SuicideLMG implements LegalMoveGenerator {
 		System.out.println("{");
 		for(int start = 0;start < 64;start++){
 			long b = 0L;
-			boolean d_up = start/8 < 6; //d_ means double. so d_up means up-up
-			boolean d_down = start/8 > 1;
-			boolean d_right = start%8 < 6;
-			boolean d_left = start%8 > 1;
+			
 			boolean up = start/8 < 7;
 			boolean down = start/8 > 0;
-			boolean right = start%8 < 7;
 			boolean left = start%8 > 0;
+			boolean right = start%8 < 7;
 			
-			if(d_left && up)
-				b |= 1L << (start+LEFT+LEFT+UP);
-			if(left && d_up)
-				b |= 1L << (start+LEFT+UP+UP);
-			if(right && d_up)
-				b |= 1L << (start+RIGHT+UP+UP);
-			if(d_right && up)
-				b |= 1L << (start+RIGHT+RIGHT+UP);
-			if(d_right && down)
-				b |= 1L << (start+RIGHT+RIGHT+DOWN);
-			if(right && d_down)
-				b |= 1L << (start+RIGHT+DOWN+DOWN);
-			if(left && d_down)
-				b |= 1L << (start+LEFT+DOWN+DOWN);
-			if(d_left && down)
-				b |= 1L << (start+LEFT+LEFT+DOWN);
+			if(left){
+				if(down){
+					b |= 1L << (start+LEFT+DOWN);
+				}
+				b |= 1L << (start+LEFT);
+				if(up){
+					b |= 1L << (start+LEFT+UP);
+				}
+			}
+			
+			if(up){
+				b |= 1L << (start+UP);
+				if(right){
+					b |= 1L << (start+RIGHT+UP);
+				}
+			}
+			if(right){
+				b |= 1L << (start+RIGHT);
+				if(down){
+					b |= 1L << (start+RIGHT+DOWN);
+				}
+			}
+			if(down){
+				b |= 1L << (start+DOWN);
+			}
 			System.out.println(b + "L,");
 		}
 		System.out.println("};");
