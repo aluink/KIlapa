@@ -2,7 +2,6 @@ package net.aluink.chess.suicide.ai.book;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Map;
@@ -12,7 +11,7 @@ public class OpeningBook {
 	Map<String,BookNode> book;
 	
 	public OpeningBook(File f){
-		load(f);
+//		load(f);
 	}
 
 	String readUntil(FileInputStream fis, char end) throws Exception{
@@ -24,14 +23,14 @@ public class OpeningBook {
 		return sb.toString();
 	}
 	
-	void load(File f) {
-		try {
-			FileInputStream fis = new FileInputStream(f);
-			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}		
-	}
+//	void load(File f) {
+//		try {
+//			FileInputStream fis = new FileInputStream(f);
+//			
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		}		
+//	}
 	
 	void store(File f){
 		try {

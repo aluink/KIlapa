@@ -158,14 +158,14 @@ public class SuicidePlayer implements ChessPlayer {
 		
 	}
 	
-	private boolean isKiller(Move m, int depth){
-		for(KillerMove km : killerMoves[depth]){
-			if(km.m.equals(m))
-				return true;
-		}
-		return false;
-			
-	}
+//	private boolean isKiller(Move m, int depth){
+//		for(KillerMove km : killerMoves[depth]){
+//			if(km.m.equals(m))
+//				return true;
+//		}
+//		return false;
+//			
+//	}
 
 	private void bumpMove(Stack<Move> moves, Move move) {
 		if(moves.contains(move))

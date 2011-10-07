@@ -18,6 +18,8 @@ public class Board {
 	static final long [][][][] hashpieces = initHashPieces();
 	static final long [] hashturns = initHashTurns();
 	
+	long bitboards[][];
+	
 	Stack<MoveInfo> moves = new Stack<MoveInfo>();
 	
 	boolean debug;
@@ -31,10 +33,12 @@ public class Board {
 	}
 	
 	
+	
 	private void setPos(int i, Piece p){
 		if(pos[i] != null)
 			unsetPos(i);
 		pos[i] = p;
+		bitboards[p.getColor().getIndex()][p.getType().getIndex()] |= 1L << i;
 		hash[0] ^= hashpieces[0][p.getColor().getIndex()][p.getType().getIndex()][i];
 		hash[1] ^= hashpieces[1][p.getColor().getIndex()][p.getType().getIndex()][i];
 	}
@@ -120,6 +124,13 @@ public class Board {
 		for(int i = 0;i < 64;i++){
 			pos[i] = null;
 		}
+		
+		bitboards = new long[2][6];
+		for(int i = 0;i < 2;i++){
+			for(int j = 0;j < 6;j++){
+				bitboards[i][j] = 0L;
+			}
+		}
 	}
 	
 	public Board(String fen) throws Exception{
@@ -203,6 +214,8 @@ public class Board {
 		hash[0] ^= hashpieces[0][p.getColor().getIndex()][p.getType().getIndex()][i];
 		hash[1] ^= hashpieces[1][p.getColor().getIndex()][p.getType().getIndex()][i];
 
+		bitboards[p.getColor().getIndex()][p.getType().getIndex()] &= ~(1L << i);
+		
 		pos[i] = null;		
 	}
 
@@ -220,6 +233,19 @@ public class Board {
 		hash[1] ^= hashturns[1];
 	}
 	
+	public void printBitboards(){
+		for(int c = 0;c < 2;c++){
+			for(int p = 0;p < 6;p++){
+				for(int row = 7;row >= 0;row--){
+					for(int col = 0;col < 8;col++){
+						System.out.print(bitboards[c][p] >> (row*8+col) & 1L);
+					}
+					System.out.println();
+				}
+				System.out.println("\n");
+			}
+		}
+	}
 	
 	public void printBoard(){
 		for(int row = 7;row >= 0;row--){
@@ -357,4 +383,17 @@ public class Board {
 			hash[1] = hashturns[1];
 		}			
 	}
+	
+	public static void main(String[] args) {
+		int x = 5;
+		while(x != 0){
+			System.out.println(Integer.lowestOneBit(x));
+			x &= x-1;
+		}
+	}
+
+	public long[] getBitBoards(int index) {
+		return bitboards[index];
+	}
+	
 }

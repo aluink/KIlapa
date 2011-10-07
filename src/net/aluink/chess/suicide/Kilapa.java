@@ -5,7 +5,6 @@ import java.util.Stack;
 
 import net.aluink.chess.suicide.ai.SuicidePlayer;
 import net.aluink.chess.suicide.ai.pn.PN2;
-import net.aluink.chess.suicide.ai.pn.PNNode;
 import net.aluink.chess.suicide.ai.pn.PNSearch;
 import net.aluink.chess.suicide.game.Board;
 import net.aluink.chess.suicide.game.Move;
@@ -49,6 +48,8 @@ public class Kilapa {
 				continue;
 			} else if(command.equals("undo")){
 				b.unmakeMove();
+			} else if(command.equals("printbb")){
+				b.printBitboards();
 			} else if(command.equals("test")){
 				for(Move m : moves){
 					System.out.println(m);
@@ -60,8 +61,7 @@ public class Kilapa {
 				System.out.println((pn[3]*1000) / (System.currentTimeMillis() - start));
 				b.makeMove(moves.get(pn[2]));
 			} else if(command.equals("pn2")){
-				int pn [] = new PN2().pn2Search(b, 400000, new SuicideLMG());
-				System.out.println(pn[0] + " " + pn[1] + " " + (pn[2] >= 0 ? moves.get(pn[2]) : ""));
+				new PN2().pn2Search(b, 5000000, new SuicideLMG());
 			} else {
 				try {
 					int scol = command.charAt(0)-'a';

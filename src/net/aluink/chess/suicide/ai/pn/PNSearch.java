@@ -24,10 +24,12 @@ public class PNSearch {
 	}
 	
 	public static PNNode [] init(int np){
+		System.out.print("Initializing " + np + " pn nodes...");
 		PNNode [] nodes = new PNNode[np];
 		for(int i = 0;i < np;i++){
 			nodes[i] = new PNNode();
 		}
+		System.out.println("done.");
 		return nodes;
 	}
 	

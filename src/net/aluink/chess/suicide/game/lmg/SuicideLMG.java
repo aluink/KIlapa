@@ -26,32 +26,40 @@ public class SuicideLMG implements LegalMoveGenerator {
 		this.b = b;
 		Stack<Move> moves = new Stack<Move>();
 		AttackingStatus attacking = new AttackingStatus();
-		for(int i = 0;i < 64;i++){
-			Piece p = b.getPos(i);
-			if(p == null || p.getColor() != b.getTurn())
-				continue;
-			
-			switch(p.getType()){
-				case KING:
-					getKingMoves(i, attacking, moves);
-					break;
-				case PAWN:
-					getPawnMoves(i, attacking, moves);
-					break;
-				case ROOK:
-					getRookMoves(i, attacking, moves);
-					break;
-				case KNIGHT:
-					getKnightMoves(i, attacking, moves);
-					break;
-				case BISHOP:
-					getBishopMoves(i, attacking, moves);
-					break;
-				case QUEEN:
-					getBishopMoves(i, attacking, moves);
-					getRookMoves(i, attacking, moves);
-					break;
+		long [] bbs = b.getBitBoards(b.getTurn().getIndex());
+		long bb = bbs[0] | bbs[1] | bbs[2] | bbs[3] | bbs[4] | bbs[5];
+		int bitboard = (int) (bb & 0xFFFFFFFFL);
+		for(int j = 0;j <= 32;j += 32){
+			while(bitboard != 0){
+				int i = Integer.numberOfTrailingZeros(bitboard)+j;
+				bitboard &= bitboard -1 ;
+				Piece p = b.getPos(i);
+				if(p == null || p.getColor() != b.getTurn())
+					continue;
+				
+				switch(p.getType()){
+					case KING:
+						getKingMoves(i, attacking, moves);
+						break;
+					case PAWN:
+						getPawnMoves(i, attacking, moves);
+						break;
+					case ROOK:
+						getRookMoves(i, attacking, moves);
+						break;
+					case KNIGHT:
+						getKnightMoves(i, attacking, moves);
+						break;
+					case BISHOP:
+						getBishopMoves(i, attacking, moves);
+						break;
+					case QUEEN:
+						getBishopMoves(i, attacking, moves);
+						getRookMoves(i, attacking, moves);
+						break;
+				}
 			}
+			bitboard = (int) (bb >> 32);
 		}
 		return moves;
 	}
@@ -303,6 +311,37 @@ public class SuicideLMG implements LegalMoveGenerator {
 			if(down){
 				getRayAttacking(p, p+DOWN, moves);
 			}
+		}
+	}
+	
+	public static void main(String[] args) {
+		for(int start = 0;start < 64;start++){
+			long b = 0L;
+			boolean d_up = start/8 < 6; //d_ means double. so d_up means up-up
+			boolean d_down = start/8 > 1;
+			boolean d_right = start%8 < 6;
+			boolean d_left = start%8 > 1;
+			boolean up = start/8 < 7;
+			boolean down = start/8 > 0;
+			boolean right = start%8 < 7;
+			boolean left = start%8 > 0;
+			
+			if(d_left && up)
+				b |= 1L << (start+LEFT+LEFT+UP);
+			if(left && d_up)
+				b |= 1L << (start+LEFT+LEFT+UP);
+			if(right && d_up)
+				b |= 1L << (start+LEFT+LEFT+UP);
+			if(d_right && up)
+				b |= 1L << (start+LEFT+LEFT+UP);
+			if(d_right && down)
+				b |= 1L << (start+LEFT+LEFT+UP);
+			if(right && d_down)
+				b |= 1L << (start+LEFT+LEFT+UP);
+			if(left && d_down)
+				b |= 1L << (start+LEFT+LEFT+UP);
+			if(d_left && down)
+				b |= 1L << (start+LEFT+LEFT+UP);
 		}
 	}
 	

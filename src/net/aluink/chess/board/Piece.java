@@ -66,6 +66,7 @@ public class Piece {
 		return this.type;
 	}
 	
+	@SuppressWarnings("unused")
 	private Piece(){}
 	
 	
