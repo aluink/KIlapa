@@ -396,8 +396,8 @@ public class Board {
 		}
 	}
 
-	public long[] getBitBoards(int index) {
-		return bitboards[index];
+	public long[][] getBitBoards() {
+		return bitboards;
 	}
 	
 }

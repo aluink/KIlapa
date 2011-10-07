@@ -1,5 +1,6 @@
 package net.aluink.chess.suicide.game.lmg;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
@@ -16,9 +17,14 @@ public class SuicideLMG implements LegalMoveGenerator {
 	public static final int LEFT = -1;
 	public static final int RIGHT = 1;
 	
+	long allBoard;
+	long thisBoard;
+	long otherBoard;
+	long [][] bbs;
+	
 	Board b;
 	
-	long [] kingMasks = {
+	static long [] kingMasks = {
 			770L,
 			1797L,
 			3594L,
@@ -160,9 +166,16 @@ public class SuicideLMG implements LegalMoveGenerator {
 		this.b = b;
 		Stack<Move> moves = new Stack<Move>();
 		AttackingStatus attacking = new AttackingStatus();
-		long [] bbs = b.getBitBoards(b.getTurn().getIndex());
-		long bb = bbs[0] | bbs[1] | bbs[2] | bbs[3] | bbs[4] | bbs[5];
-		int bitboard = (int) (bb & 0xFFFFFFFFL);
+		
+		// Setup all the boards
+		bbs = b.getBitBoards();
+		int index = b.getTurn().getIndex();
+		thisBoard = bbs[index][0] | bbs[index][1] | bbs[index][2] | bbs[index][3] | bbs[index][4] | bbs[index][5];
+		index = (index+1) % 2;
+		otherBoard = bbs[index][0] | bbs[index][1] | bbs[index][2] | bbs[index][3] | bbs[index][4] | bbs[index][5];
+		allBoard = thisBoard | otherBoard;
+		
+		int bitboard = (int) (thisBoard & 0xFFFFFFFFL);
 		for(int j = 0;j <= 32;j += 32){
 			while(bitboard != 0){
 				int i = Integer.numberOfTrailingZeros(bitboard)+j;
@@ -193,7 +206,7 @@ public class SuicideLMG implements LegalMoveGenerator {
 						break;
 				}
 			}
-			bitboard = (int) (bb >> 32);
+			bitboard = (int) (thisBoard >> 32);
 		}
 		return moves;
 	}
@@ -208,49 +221,18 @@ public class SuicideLMG implements LegalMoveGenerator {
 	}
 
 	private void getKnightMoves(int start, AttackingStatus attacking, List<Move> moves) {
-		boolean d_up = start/8 < 6; //d_ means double. so d_up means up-up
-		boolean d_down = start/8 > 1;
-		boolean d_right = start%8 < 6;
-		boolean d_left = start%8 > 1;
-		boolean up = start/8 < 7;
-		boolean down = start/8 > 0;
-		boolean right = start%8 < 7;
-		boolean left = start%8 > 0;
+		long mask = knightMasks[start];
+		long attack = mask & otherBoard;
+		
+		if(attack != 0 && !attacking.b){
+			attacking.set();
+			moves.clear();
+		}
 		
 		if(!attacking.b){
-			if(d_left && up)
-				getRayNotAttacking(start, start+LEFT+LEFT+UP, attacking, moves);
-			if(left && d_up)
-				getRayNotAttacking(start, start+LEFT+UP+UP, attacking, moves);
-			if(right && d_up)
-				getRayNotAttacking(start, start+RIGHT+UP+UP, attacking, moves);
-			if(d_right && up)
-				getRayNotAttacking(start, start+RIGHT+RIGHT+UP, attacking, moves);
-			if(d_right && down)
-				getRayNotAttacking(start, start+RIGHT+RIGHT+DOWN, attacking, moves);
-			if(right && d_down)
-				getRayNotAttacking(start, start+RIGHT+DOWN+DOWN, attacking, moves);
-			if(left && d_down)
-				getRayNotAttacking(start, start+LEFT+DOWN+DOWN, attacking, moves);
-			if(d_left && down)
-				getRayNotAttacking(start, start+LEFT+LEFT+DOWN, attacking, moves);
+			moves.addAll(getNonRayMoves(start, mask & ~allBoard));
 		} else {
-			if(d_left && up)
-				getRayAttacking(start, start+LEFT+LEFT+UP, moves);
-			if(left && d_up)
-				getRayAttacking(start, start+LEFT+UP+UP, moves);
-			if(right && d_up)
-				getRayAttacking(start, start+RIGHT+UP+UP, moves);
-			if(d_right && up)
-				getRayAttacking(start, start+RIGHT+RIGHT+UP, moves);
-			if(d_right && down)
-				getRayAttacking(start, start+RIGHT+RIGHT+DOWN, moves);
-			if(right && d_down)
-				getRayAttacking(start, start+RIGHT+DOWN+DOWN, moves);
-			if(left && d_down)
-				getRayAttacking(start, start+LEFT+DOWN+DOWN, moves);
-			if(d_left && down)
-				getRayAttacking(start, start+LEFT+LEFT+DOWN, moves);
+			moves.addAll(getNonRayMoves(start, attack));
 		}	
 	}
 
@@ -384,108 +366,67 @@ public class SuicideLMG implements LegalMoveGenerator {
 			if(starting)
 				getPawnMove(start, start+dir+dir, moves, promo);
 		}
-		//TODO en passant
-		
 	}
 
 	private void getKingMoves(int p, AttackingStatus attacking, List<Move> moves) {
-		boolean up = p/8 < 7;
-		boolean down = p/8 > 0;
-		boolean left = p%8 > 0;
-		boolean right = p%8 < 7;
+		long mask = kingMasks[p];
+		long attack = mask & otherBoard;
+		
+		if(attack != 0 && !attacking.b){
+			attacking.set();
+			moves.clear();
+		}
+		
 		if(!attacking.b){
-			if(left){
-				if(down){
-					getRayNotAttacking(p, p+LEFT+DOWN, attacking, moves);
-				}
-				getRayNotAttacking(p, p+LEFT, attacking, moves);
-				if(up){
-					getRayNotAttacking(p, p+LEFT+UP, attacking, moves);
-				}
-			}
-			
-			if(up){
-				getRayNotAttacking(p, p+UP, attacking, moves);
-				if(right){
-					getRayNotAttacking(p, p+RIGHT+UP, attacking, moves);
-				}
-			}
-			if(right){
-				getRayNotAttacking(p, p+RIGHT, attacking, moves);
-				if(down){
-					getRayNotAttacking(p, p+RIGHT+DOWN, attacking, moves);
-				}
-			}
-			if(down){
-				getRayNotAttacking(p, p+DOWN, attacking, moves);
-			}
+			moves.addAll(getNonRayMoves(p, mask & ~allBoard));
 		} else {
-			if(left){
-				if(down){
-					getRayAttacking(p, p+LEFT+DOWN, moves);
-				}
-				getRayAttacking(p, p+LEFT, moves);
-				if(up){
-					getRayAttacking(p, p+LEFT+UP, moves);
-				}
-			}
-			
-			if(up){
-				getRayAttacking(p, p+UP, moves);
-				if(right){
-					getRayAttacking(p, p+RIGHT+UP, moves);
-				}
-			}
-			if(right){
-				getRayAttacking(p, p+RIGHT, moves);
-				if(down){
-					getRayAttacking(p, p+RIGHT+DOWN, moves);
-				}
-			}
-			if(down){
-				getRayAttacking(p, p+DOWN, moves);
-			}
+			moves.addAll(getNonRayMoves(p, attack));
 		}
 	}
 	
-	public static void main(String[] args) {
-		System.out.println("{");
-		for(int start = 0;start < 64;start++){
-			long b = 0L;
-			
-			boolean up = start/8 < 7;
-			boolean down = start/8 > 0;
-			boolean left = start%8 > 0;
-			boolean right = start%8 < 7;
-			
-			if(left){
-				if(down){
-					b |= 1L << (start+LEFT+DOWN);
-				}
-				b |= 1L << (start+LEFT);
-				if(up){
-					b |= 1L << (start+LEFT+UP);
-				}
+//	int m = (int) (mask & 0xFFFFFFFFL);
+//	for(int i = 0;i < 33;i+=32){
+//		while(m != 0){
+//			int p = Integer.numberOfTrailingZeros(m)+i;
+//			m &= m-1;
+//	
+//	
+//		}
+//		m = (int) mask >> 32;
+//	}
+	
+	/*
+	 * For kings and knights
+	 */
+	static List<Move> getNonRayMoves(int start, long mask){
+		List<Move> lst = new ArrayList<Move>();
+		int m = (int) (mask & 0xFFFFFFFFL);
+		for(int i = 0;i < 33;i+=32){
+			while(m != 0){
+				int p = Integer.numberOfTrailingZeros(m)+i;
+				m &= m-1;
+
+				lst.add(new Move(start, p));
 			}
-			
-			if(up){
-				b |= 1L << (start+UP);
-				if(right){
-					b |= 1L << (start+RIGHT+UP);
-				}
-			}
-			if(right){
-				b |= 1L << (start+RIGHT);
-				if(down){
-					b |= 1L << (start+RIGHT+DOWN);
-				}
-			}
-			if(down){
-				b |= 1L << (start+DOWN);
-			}
-			System.out.println(b + "L,");
+			m = (int) (mask >> 32);
 		}
-		System.out.println("};");
+		return lst;
 	}
+	
+	public static void main(String[] args) {
+		for(int i = 0;i < 64;i++){
+			Board.printBitboard(SuicideLMG.kingMasks[i]);
+		}
+	}
+	
+//	public static void main(String[] args) {
+//		System.out.println("{");
+//		for(int start = 0;start < 64;start++){
+//			long b = 0L;
+//			
+//			System.out.println(b + "L,");
+//		}
+//		System.out.println("};");
+//	}
 	
 }
