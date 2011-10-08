@@ -11,10 +11,10 @@ import net.aluink.chess.suicide.game.lmg.SuicideLMG;
 
 public class PN2 extends PNSearch {
 	
-	double A = 1000000;//130000;
-	double B = 300000;
+	double A = 5000000;//130000;
+	double B = 1000000;
 	
-	double d =  (1 / (1 + Math.exp((A - nodecount)/B)));
+	
 	
 	public void pn2Search(Board b, int maxNodecount, LegalMoveGenerator lmg){
 		NODES = PNSearch.init(maxNodecount);
@@ -102,6 +102,7 @@ public class PN2 extends PNSearch {
 	}
 
 	private long subTreeSize(long nodecount) {
+		double d =  (1 / (1 + Math.exp((A - nodecount)/B)));
 		return Math.max((long) (nodecount * d), 100);
 	}
 }
