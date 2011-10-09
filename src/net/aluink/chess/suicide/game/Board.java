@@ -240,6 +240,7 @@ public class Board {
 			}
 			System.out.println();
 		}
+		System.out.println();
 	}
 	
 	public void printBitboards(){
@@ -389,11 +390,7 @@ public class Board {
 	}
 	
 	public static void main(String[] args) {
-		int x = 5;
-		while(x != 0){
-			System.out.println(Integer.lowestOneBit(x));
-			x &= x-1;
-		}
+		Board.printBitboard(282578800148862L);
 	}
 
 	public long[][] getBitBoards() {

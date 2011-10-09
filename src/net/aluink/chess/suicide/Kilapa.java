@@ -10,6 +10,7 @@ import net.aluink.chess.suicide.game.Board;
 import net.aluink.chess.suicide.game.Move;
 import net.aluink.chess.suicide.game.lmg.LegalMoveGenerator;
 import net.aluink.chess.suicide.game.lmg.SuicideLMG;
+import net.aluink.chess.suicide.game.lmg.bitboards.Magic;
 
 public class Kilapa {
 	public static void main(String[] args) {
@@ -18,6 +19,7 @@ public class Kilapa {
 		LegalMoveGenerator lgm = new SuicideLMG();
 		SuicidePlayer sp = null;
 		Stack<Move> moves = new Stack<Move>();
+		Magic.init();
 		while(true){
 			if(b != null){
 				b.printBoard();

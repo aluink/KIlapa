@@ -5,10 +5,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 
-import net.aluink.chess.board.Piece;
 import net.aluink.chess.board.Piece.Color;
+import net.aluink.chess.board.Piece.Type;
 import net.aluink.chess.suicide.game.Board;
 import net.aluink.chess.suicide.game.Move;
+import net.aluink.chess.suicide.game.lmg.bitboards.Magic;
 
 public class SuicideLMG implements LegalMoveGenerator {
 
@@ -21,6 +22,7 @@ public class SuicideLMG implements LegalMoveGenerator {
 	long thisBoard;
 	long otherBoard;
 	long [][] bbs;
+	
 	
 	Board b;
 	
@@ -175,107 +177,86 @@ public class SuicideLMG implements LegalMoveGenerator {
 		otherBoard = bbs[index][0] | bbs[index][1] | bbs[index][2] | bbs[index][3] | bbs[index][4] | bbs[index][5];
 		allBoard = thisBoard | otherBoard;
 		
-		int bitboard = (int) (thisBoard & 0xFFFFFFFFL);
-		for(int j = 0;j <= 32;j += 32){
-			while(bitboard != 0){
-				int i = Integer.numberOfTrailingZeros(bitboard)+j;
-				bitboard &= bitboard -1 ;
-				Piece p = b.getPos(i);
-				if(p == null || p.getColor() != b.getTurn())
-					continue;
-				
-				switch(p.getType()){
-					case KING:
-						getKingMoves(i, attacking, moves);
-						break;
-					case PAWN:
-						getPawnMoves(i, attacking, moves);
-						break;
-					case ROOK:
-						getRookMoves(i, attacking, moves);
-						break;
-					case KNIGHT:
-						getKnightMoves(i, attacking, moves);
-						break;
-					case BISHOP:
-						getBishopMoves(i, attacking, moves);
-						break;
-					case QUEEN:
-						getBishopMoves(i, attacking, moves);
-						getRookMoves(i, attacking, moves);
-						break;
-				}
-			}
-			bitboard = (int) (thisBoard >> 32);
-		}
+		getKingMoves(attacking, moves);
+		getPawnMoves(attacking, moves);
+		getRookMoves(attacking, moves);
+		getKnightMoves(attacking, moves);
+		getBishopMoves(attacking, moves);
 		return moves;
 	}
 
-	private void getBishopMoves(int start, AttackingStatus attacking, List<Move> moves) {
-		getRayMoves(start, attacking, moves, Arrays.asList(
-				new RayInfo(new CompoundBoundChecker(Arrays.asList(new LessThan(64),new ModNotEqual(8,7))),UP+LEFT),
-				new RayInfo(new CompoundBoundChecker(Arrays.asList(new GreaterThan(0),new ModNotEqual(8,7))),DOWN+LEFT),
-				new RayInfo(new CompoundBoundChecker(Arrays.asList(new LessThan(64),new ModNotEqual(8,0))),UP+RIGHT),
-				new RayInfo(new CompoundBoundChecker(Arrays.asList(new GreaterThan(0),new ModNotEqual(8,0))),DOWN+RIGHT))
-		);
-	}
-
-	private void getKnightMoves(int start, AttackingStatus attacking, List<Move> moves) {
-		long mask = knightMasks[start];
-		long attack = mask & otherBoard;
-		
-		if(attack != 0 && !attacking.b){
-			attacking.set();
-			moves.clear();
-		}
-		
-		if(!attacking.b){
-			moves.addAll(getNonRayMoves(start, mask & ~allBoard));
-		} else {
-			moves.addAll(getNonRayMoves(start, attack));
-		}	
-	}
-
-	private void getRayMoves(int start, AttackingStatus attacking, List<Move> moves, List<RayInfo> rayInfos){
-		int tmp;
-		if(!attacking.b){
-			for(RayInfo ri : rayInfos){
-				tmp = start + ri.dir;
-				while (ri.bc.inBounds(tmp)){
-					if(getRayNotAttacking(start, tmp, attacking, moves))
-						break;
-					tmp += ri.dir;
-				}
+	private void getBishopMoves(AttackingStatus attacking, List<Move> moves) {
+		long rooks = bbs[b.getTurn().getIndex()][Type.BISHOP.getIndex()];
+		while(rooks != 0){
+			int start = Long.numberOfTrailingZeros(rooks);
+			rooks &= rooks - 1;
+			Magic m = Magic.BMagic[start];
+			long occ = allBoard & m.mask;
+			occ *= m.magic;
+			occ >>= 64 - m.shift;
+			occ &= Magic.ShiftMask[m.shift];
+			occ = m.attSets[(int)occ];
+			long attack = occ & otherBoard;
+			
+			if(attack != 0 && !attacking.b){
+				attacking.set();
+				moves.clear();
 			}
-		} else {
-			for(RayInfo ri : rayInfos){
-				tmp = start + ri.dir;
-				while (ri.bc.inBounds(tmp)){
-					if(getRayAttacking(start, tmp, moves))
-						break;
-					tmp += ri.dir;
-				}
+			
+			if(!attacking.b){
+				moves.addAll(getMoveSet(start, occ & ~allBoard));
+			} else if(attack != 0){
+				moves.addAll(getMoveSet(start, attack));
 			}
 		}
+	}
+
+	private void getKnightMoves(AttackingStatus attacking, List<Move> moves) {
+		long knights = bbs[b.getTurn().getIndex()][Type.KNIGHT.getIndex()];
+		while(knights != 0){
+			int start = Long.numberOfTrailingZeros(knights);
+			knights &= knights - 1;
+			long mask = knightMasks[start];
+			long attack = mask & otherBoard;
+			
+			if(attack != 0 && !attacking.b){
+				attacking.set();
+				moves.clear();
+			}
+			
+			if(!attacking.b){
+				moves.addAll(getMoveSet(start, mask & ~allBoard));
+			} else if(attack != 0){
+				moves.addAll(getMoveSet(start, attack));
+			}
+		}
+			
 	}
 	
-	private void getRookMoves(int start, AttackingStatus attacking, List<Move> moves) {
-		getRayMoves(start, attacking, moves,
-			Arrays.asList(
-				new RayInfo(new LessThan(64),UP),
-				new RayInfo(new GreaterThan(0),DOWN),
-				new RayInfo(new ModNotEqual(8,7),LEFT),
-				new RayInfo(new ModNotEqual(8,0),RIGHT)
-			)
-		);		
-	}
-	private boolean getRayAttacking(int start, int tmp, List<Move> moves){
-		if(b.getPos(tmp) != null){
-			if(b.getPos(tmp).getColor() != b.getTurn())
-				moves.add(new Move(start, tmp));
-			return true;
+	private void getRookMoves(AttackingStatus attacking, List<Move> moves) {
+		long rooks = bbs[b.getTurn().getIndex()][Type.ROOK.getIndex()];
+		while(rooks != 0){
+			int start = Long.numberOfTrailingZeros(rooks);
+			rooks &= rooks - 1;
+			Magic m = Magic.RMagic[start];
+			long occ = allBoard & m.mask;
+			occ *= m.magic;
+			occ >>= 64 - m.shift;
+			occ &= Magic.ShiftMask[m.shift];
+			occ = m.attSets[(int)occ];
+			long attack = occ & otherBoard;
+			
+			if(attack != 0 && !attacking.b){
+				attacking.set();
+				moves.clear();
+			}
+			
+			if(!attacking.b){
+				moves.addAll(getMoveSet(start, occ & ~allBoard));
+			} else if(attack != 0){
+				moves.addAll(getMoveSet(start, attack));
+			}
 		}
-		return false;
 	}
 	
 	class AttackingStatus {
@@ -288,21 +269,6 @@ public class SuicideLMG implements LegalMoveGenerator {
 		public void set(){
 			b = true;
 		}
-	}
-	
-	private boolean getRayNotAttacking(int start, int tmp, AttackingStatus attacking, List<Move> moves){
-		if(b.getPos(tmp) == null){
-			if(!attacking.b)
-				moves.add(new Move(start, tmp));
-			return false;
-		} else if(b.getPos(tmp).getColor() != b.getTurn()){
-			if(!attacking.b){
-				attacking.set();
-				moves.clear();
-			}
-			moves.add(new Move(start, tmp));			
-		}
-		return true;
 	}
 	
 	private void getPawnAttack(int start, int tmp, AttackingStatus attacking, List<Move> moves, boolean promo){
@@ -341,74 +307,70 @@ public class SuicideLMG implements LegalMoveGenerator {
 		}
 	}
 	
-	private void getPawnMoves(int start, AttackingStatus attacking, List<Move> moves) {
-		int row = start/8;
-		boolean starting, promo;
-		int dir;		
-		if(b.getTurn() == Color.WHITE){
-			dir = 8;
-			starting = row == 1;
-			promo = row == 6;
-		}
-		else{
-			dir = -8;
-			starting = row == 6;
-			promo = row == 1;
-		}
-		
-		if(start%8 != 0)
-			getPawnAttack(start, start+dir+LEFT, attacking, moves, promo);
-		if(start%8 != 7)
-			getPawnAttack(start, start+dir+RIGHT, attacking, moves, promo);
-		
-		if(!attacking.b){
-			getPawnMove(start, start+dir, moves, promo);
-			if(starting)
-				getPawnMove(start, start+dir+dir, moves, promo);
-		}
+	private void getPawnMoves(AttackingStatus attacking, List<Move> moves) {
+		long pawns = bbs[b.getTurn().getIndex()][Type.PAWN.getIndex()];
+		while(pawns != 0){
+			int start = Long.numberOfTrailingZeros(pawns);
+			pawns &= pawns - 1;
+			int row = start/8;
+			boolean starting, promo;
+			int dir;		
+			if(b.getTurn() == Color.WHITE){
+				dir = 8;
+				starting = row == 1;
+				promo = row == 6;
+			}
+			else{
+				dir = -8;
+				starting = row == 6;
+				promo = row == 1;
+			}
+			
+			if(start%8 != 0)
+				getPawnAttack(start, start+dir+LEFT, attacking, moves, promo);
+			if(start%8 != 7)
+				getPawnAttack(start, start+dir+RIGHT, attacking, moves, promo);
+			
+			if(!attacking.b){
+				getPawnMove(start, start+dir, moves, promo);
+				if(starting)
+					getPawnMove(start, start+dir+dir, moves, promo);
+			}
+		}		
 	}
 
-	private void getKingMoves(int p, AttackingStatus attacking, List<Move> moves) {
-		long mask = kingMasks[p];
-		long attack = mask & otherBoard;
-		
-		if(attack != 0 && !attacking.b){
-			attacking.set();
-			moves.clear();
+	private void getKingMoves(AttackingStatus attacking, List<Move> moves) {
+		long kings = bbs[b.getTurn().getIndex()][Type.KING.getIndex()];
+		while(kings != 0){
+			int p = Long.numberOfTrailingZeros(kings);
+			kings &= kings - 1;
+			long mask = kingMasks[p];
+			long attack = mask & otherBoard;
+			
+			if(attack != 0 && !attacking.b){
+				attacking.set();
+				moves.clear();
+			}
+			
+			if(!attacking.b){
+				moves.addAll(getMoveSet(p, mask & ~allBoard));
+			} else if(attack != 0){
+				moves.addAll(getMoveSet(p, attack));
+			}
 		}
 		
-		if(!attacking.b){
-			moves.addAll(getNonRayMoves(p, mask & ~allBoard));
-		} else {
-			moves.addAll(getNonRayMoves(p, attack));
-		}
 	}
-	
-//	int m = (int) (mask & 0xFFFFFFFFL);
-//	for(int i = 0;i < 33;i+=32){
-//		while(m != 0){
-//			int p = Integer.numberOfTrailingZeros(m)+i;
-//			m &= m-1;
-//	
-//	
-//		}
-//		m = (int) mask >> 32;
-//	}
 	
 	/*
 	 * For kings and knights
 	 */
-	static List<Move> getNonRayMoves(int start, long mask){
+	static List<Move> getMoveSet(int start, long mask){
 		List<Move> lst = new ArrayList<Move>();
-		int m = (int) (mask & 0xFFFFFFFFL);
-		for(int i = 0;i < 33;i+=32){
-			while(m != 0){
-				int p = Integer.numberOfTrailingZeros(m)+i;
-				m &= m-1;
-
-				lst.add(new Move(start, p));
-			}
-			m = (int) (mask >> 32);
+		while(mask != 0){
+			int p = Long.numberOfTrailingZeros(mask);
+			mask &= mask-1;
+	
+			lst.add(new Move(start, p));
 		}
 		return lst;
 	}
@@ -416,6 +378,7 @@ public class SuicideLMG implements LegalMoveGenerator {
 	public static void main(String[] args) {
 		for(int i = 0;i < 64;i++){
 			Board.printBitboard(SuicideLMG.kingMasks[i]);
+			System.out.println();
 		}
 	}
 	

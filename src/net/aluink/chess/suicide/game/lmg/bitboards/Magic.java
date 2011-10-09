@@ -2,43 +2,201 @@ package net.aluink.chess.suicide.game.lmg.bitboards;
 
 import net.aluink.chess.suicide.game.Board;
 
+
+
+
 public class Magic {
 	
-	static final int UP = 8;
-	static final int DOWN = -8;
+	public long mask;
+	public int shift;
+	public long magic;
+	public long [] attSets;
+	
+	public static final Magic [] RMagic = new Magic[64];
+	public static final Magic [] BMagic = new Magic[64];
+	
+	public static void init(){
+		initBMagic();
+		initRMagic();
+	}
+	
+	private Magic(){};
+	
 	static final int LEFT = -1;
 	static final int RIGHT = 1;
+	static final int UP = 8;
+	static final int DOWN = -8;
 	
 	public static void main(String[] args) {
-		System.out.println("static final long [] ROccMasks = {");
-		for(int i = 0;i < 64;i++){
-			long bb = 0L;
-			long tmp = i;
-			while(tmp < 48){
-				tmp += UP;
-				bb |= 1L << tmp;
-			}
-			tmp = i;
-			while((tmp % 8) < 6){
-				tmp += RIGHT;
-				bb |= 1L << tmp;
-			}
-			tmp = i;
-			while(tmp >= 16){
-				tmp += DOWN;
-				bb |= 1L << tmp;
-			}
-			tmp = i;
-			while((tmp % 8) > 1){
-				tmp += LEFT;
-				bb |= 1L << tmp;
-			}
-			
-			System.out.println(bb + "L,");
-//			Board.printBitboard(bb);
-		}
-		System.out.println("};");
+		Magic.init();
 	}
+	
+	private static void initBMagic() {
+		for(int i = 0;i < 64;i++){
+			BMagic[i] = new Magic();
+			BMagic[i].mask = BOccMasks[i];
+			BMagic[i].shift = BShift[i];
+			BMagic[i].magic = BMagicN[i];
+			int attSetCount = 1 << BShift[i];
+			
+			BMagic[i].attSets = new long[attSetCount];
+			for(int j = 0;j < attSetCount;j++){
+				BMagic[i].attSets[j] = -1;
+			}
+			for(long j = 0;j < attSetCount;j++){
+				long bb = 0L;
+				int bit = i;
+				while((bit / 8 > 1) && (bit % 8 < 6)) bit += DOWN + RIGHT;
+				int s = (i - bit) / 7;
+				long l = 0;
+				for(;s != 0;s--,l++){
+					bb |= (j >> l & 1L) << bit;
+					bit += UP + LEFT;
+				}
+				if((bit / 8 < 6) && (bit % 8 > 1)){
+					bit += UP + LEFT;
+					for(;(bit / 8 < 7) && (bit % 8 > 0);l++){
+						bb |= (j >> l & 1L) << bit;
+						bit += UP + LEFT;
+					}
+				}
+				bit = i;
+				while((bit / 8 > 1) && (bit % 8 > 1)) bit += DOWN + LEFT;
+				s = (i - bit) / 9;
+				for(;s != 0;s--,l++){
+					bb |= (j >> l & 1L) << bit;
+					bit += UP + RIGHT;
+				}
+				if((bit / 8 < 6) && (bit % 8 < 6)){
+					bit += UP + RIGHT;
+					for(;(bit / 8 < 7) && (bit % 8 < 7);l++){
+						long t = (j >> l & 1L) << bit;
+						bb |= t;
+						bit += UP + RIGHT;
+					}
+				}
+				long attSet = 0L;
+				bit = i;
+				
+				while((bit / 8 < 7) && (bit % 8 < 7)){
+					bit += UP + RIGHT;
+					attSet |= 1L << bit;
+					if((bb >> bit & 1L) == 1)
+						break;
+				}
+				bit = i;
+				while((bit / 8 < 7) && (bit % 8 > 0)){
+					bit += UP + LEFT;
+					attSet |= 1L << bit;
+					if((bb >> bit & 1L) == 1)
+						break;
+				}
+				bit = i;
+				while((bit / 8 > 0) && (bit % 8 < 7)){
+					bit += DOWN + RIGHT;
+					attSet |= 1L << bit;
+					if((bb >> bit & 1L) == 1)
+						break;
+				}
+				bit = i;
+				while((bit / 8 > 0) && (bit % 8 > 0)){
+					bit += DOWN + LEFT;
+					attSet |= 1L << bit;
+					if((bb >> bit & 1L) == 1)
+						break;
+				}
+				
+				BMagic[i].attSets[(int)((bb * BMagic[i].magic) >> (64-BMagic[i].shift) & ShiftMask[BMagic[i].shift])] = attSet;
+				
+			}
+		}
+	}
+
+	private static void initRMagic() {
+		for(int i = 0;i < 64;i++){
+			RMagic[i] = new Magic();
+			RMagic[i].mask = ROccMasks[i];
+			RMagic[i].shift = RShift[i];
+			RMagic[i].magic = RMagicN[i];
+			
+			RMagic[i].attSets = new long[1 << RShift[i]];
+			int attSetCount = 1 << RShift[i];
+			
+			RMagic[i].attSets = new long[attSetCount];
+			for(int j = 0;j < attSetCount;j++){
+				RMagic[i].attSets[j] = -1;
+			}
+			for(long j = 0;j < attSetCount;j++){
+				long bb = 0L;
+				int bit = i;
+				while((bit / 8 > 1) && (bit % 8 < 6)) bit += DOWN;
+				int s = (i - bit) / 8;
+				long l = 0;
+				for(;s != 0;s--,l++){
+					bb |= (j >> l & 1L) << bit;
+					bit += UP;
+				}
+				if((bit / 8 < 6)){
+					bit += UP;
+					for(;(bit / 8 < 7);l++){
+						bb |= (j >> l & 1L) << bit;
+						bit += UP;
+					}
+				}
+				bit = i;
+				while((bit % 8 > 1)) bit += LEFT;
+				s = i - bit;
+				for(;s != 0;s--,l++){
+					bb |= (j >> l & 1L) << bit;
+					bit += RIGHT;
+				}
+				if((bit % 8 < 6)){
+					bit += RIGHT;
+					for(;(bit % 8 < 7);l++){
+						long t = (j >> l & 1L) << bit;
+						bb |= t;
+						bit += RIGHT;
+					}
+				}
+				long attSet = 0L;
+				bit = i;
+
+				while((bit / 8 < 7)){
+					bit += UP;
+					attSet |= 1L << bit;
+					if((bb >> bit & 1L) == 1)
+						break;
+				}
+				bit = i;
+				while((bit % 8 > 0)){
+					bit += LEFT;
+					attSet |= 1L << bit;
+					if((bb >> bit & 1L) == 1)
+						break;
+				}
+				bit = i;
+				while((bit % 8 < 7)){
+					bit += RIGHT;
+					attSet |= 1L << bit;
+					if((bb >> bit & 1L) == 1)
+						break;
+				}
+				bit = i;
+				while((bit / 8 > 0)){
+					bit += DOWN;
+					attSet |= 1L << bit;
+					if((bb >> bit & 1L) == 1)
+						break;
+				}
+				RMagic[i].attSets[(int)((bb * RMagic[i].magic) >> (64-RMagic[i].shift) & ShiftMask[RMagic[i].shift])] = attSet;
+			}
+		}
+	}
+
+	public static final long [] ShiftMask = {
+		0x0,0x1,0x3,0x7,0xF,0x1F,0x3F,0x7F,0xFF,
+		0x1FF,0x3FF,0x7FF,0xFFF,0x1FFF,0x3FFF,0x7FFF,0xFFFF
+	};
 	
 	static final int [] RShift = {
 		12,11,11,11,11,11,11,12,
@@ -53,14 +211,14 @@ public class Magic {
 	};
 	
 	static final int [] BShift = {
-		7,5,5,5,5,5,5,7,
+		6,5,5,5,5,5,5,6,
 		5,5,5,5,5,5,5,5,
 		5,5,7,7,7,7,5,5,
 		5,5,7,9,9,7,5,5,
 		5,5,7,9,9,7,5,5,
 		5,5,7,7,7,7,5,5,
 		5,5,5,5,5,5,5,5,
-		7,5,5,5,5,5,5,7
+		6,5,5,5,5,5,5,6
 	};
 	
 	static final long [] ROccMasks = {
@@ -197,7 +355,7 @@ public class Magic {
 		18049651735527936L,
 		};
 
-	static final long [] RMagic = {
+	static final long [] RMagicN = {
 			  0xa8002c000108020L,
 			  0x6c00049b0002001L,
 			  0x100200010090040L,
@@ -264,7 +422,7 @@ public class Magic {
 			  0x26002114058042L,
 			};
 
-	static final long [] BMagic = {
+	static final long [] BMagicN = {
 			  0x89a1121896040240L,
 			  0x2004844802002010L,
 			  0x2068080051921000L,
