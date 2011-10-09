@@ -179,17 +179,18 @@ public class SuicideLMG implements LegalMoveGenerator {
 		
 		getKingMoves(attacking, moves);
 		getPawnMoves(attacking, moves);
-		getRookMoves(attacking, moves);
+		getRookMoves(attacking, moves, bbs[b.getTurn().getIndex()][Type.ROOK.getIndex()]);
 		getKnightMoves(attacking, moves);
-		getBishopMoves(attacking, moves);
+		getBishopMoves(attacking, moves, bbs[b.getTurn().getIndex()][Type.BISHOP.getIndex()]);
+		getBishopMoves(attacking, moves, bbs[b.getTurn().getIndex()][Type.QUEEN.getIndex()]);
+		getRookMoves(attacking, moves, bbs[b.getTurn().getIndex()][Type.QUEEN.getIndex()]);
 		return moves;
 	}
 
-	private void getBishopMoves(AttackingStatus attacking, List<Move> moves) {
-		long rooks = bbs[b.getTurn().getIndex()][Type.BISHOP.getIndex()];
-		while(rooks != 0){
-			int start = Long.numberOfTrailingZeros(rooks);
-			rooks &= rooks - 1;
+	private void getBishopMoves(AttackingStatus attacking, List<Move> moves, long pieces) {
+		while(pieces != 0){
+			int start = Long.numberOfTrailingZeros(pieces);
+			pieces &= pieces - 1;
 			Magic m = Magic.BMagic[start];
 			long occ = allBoard & m.mask;
 			occ *= m.magic;
@@ -233,11 +234,10 @@ public class SuicideLMG implements LegalMoveGenerator {
 			
 	}
 	
-	private void getRookMoves(AttackingStatus attacking, List<Move> moves) {
-		long rooks = bbs[b.getTurn().getIndex()][Type.ROOK.getIndex()];
-		while(rooks != 0){
-			int start = Long.numberOfTrailingZeros(rooks);
-			rooks &= rooks - 1;
+	private void getRookMoves(AttackingStatus attacking, List<Move> moves, long pieces) {
+		while(pieces != 0){
+			int start = Long.numberOfTrailingZeros(pieces);
+			pieces &= pieces - 1;
 			Magic m = Magic.RMagic[start];
 			long occ = allBoard & m.mask;
 			occ *= m.magic;

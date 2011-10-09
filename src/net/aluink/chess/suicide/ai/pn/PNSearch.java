@@ -36,7 +36,7 @@ public class PNSearch {
 	public static final int INF = 300000;
 	
 	public int [] search(Board b, long maxNodeCount, LegalMoveGenerator lmg){
-		return search(b, maxNodeCount, lmg, 0, 1, init((int)maxNodeCount*2));
+		return search(b, maxNodeCount, lmg, 0, 1, init((int)maxNodeCount+2000));
 	}
 	
 	public int[] search(Board b, long maxNodecount, LegalMoveGenerator lmg, int rIndex, int startIndex, PNNode [] nodes){

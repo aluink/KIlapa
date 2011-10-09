@@ -58,9 +58,9 @@ public class Kilapa {
 				}
 			} else if(command.equals("pn")){
 				long start = System.currentTimeMillis();
-				int pn [] = new PNSearch().search(b, 400000, new SuicideLMG());				
-				System.out.println(pn[0] + " " + pn[1] + " " + (pn[2] >= 0 ? moves.get(pn[2]) : "") + " " + pn[3]);
-				System.out.println((pn[3]*1000) / (System.currentTimeMillis() - start));
+				int pn [] = new PNSearch().search(b, 300000, new SuicideLMG());				
+				System.out.println(pn[0] + " " + pn[1] + " " + (pn[2] >= 0 ? moves.get(pn[2]) : "") + " " + pn[3] + "n");
+				System.out.println((pn[3]*1000) / (System.currentTimeMillis() - start) + "NPS");
 				b.makeMove(moves.get(pn[2]));
 			} else if(command.equals("pn2")){
 				new PN2().pn2Search(b, 5000000, new SuicideLMG());

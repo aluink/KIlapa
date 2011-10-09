@@ -127,9 +127,11 @@ public class Magic {
 				RMagic[i].attSets[j] = -1;
 			}
 			for(long j = 0;j < attSetCount;j++){
+				if(i == 63 && j == 4065)
+					System.out.println();
 				long bb = 0L;
 				int bit = i;
-				while((bit / 8 > 1) && (bit % 8 < 6)) bit += DOWN;
+				while((bit / 8 > 1)) bit += DOWN;
 				int s = (i - bit) / 8;
 				long l = 0;
 				for(;s != 0;s--,l++){
@@ -200,7 +202,6 @@ public class Magic {
 	
 	static final int [] RShift = {
 		12,11,11,11,11,11,11,12,
-		11,10,10,10,10,10,10,11,
 		11,10,10,10,10,10,10,11,
 		11,10,10,10,10,10,10,11,
 		11,10,10,10,10,10,10,11,
