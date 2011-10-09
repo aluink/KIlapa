@@ -104,7 +104,7 @@ public class Piece {
 		}
 	}
 
-	public int getByte() {
-		return (1 << 4) | (getColor() == Color.WHITE ? (1 << 3) : 0) | (getType().getIndex());
+	public byte getByte() {
+		return (byte) ((1 << 4) | (getColor() == Color.WHITE ? (1 << 3) : 0) | (getType().getIndex()));
 	}
 }

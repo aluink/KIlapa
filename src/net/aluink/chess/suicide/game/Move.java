@@ -36,6 +36,12 @@ public class Move {
 		this(m.start, m.end, m.promo, m.ep);
 	}
 
+	public Move(short move) {
+		this.start = move >> 11 & 0x7F;
+		this.end = move >> 6 & 0x7F;
+		promo = null;		
+	}
+
 	public int getStart() {
 		return start;
 	}
@@ -79,8 +85,16 @@ public class Move {
 		return start == m.start && end == m.end && promo == m.promo && ep == m.ep;
 	}
 
-	public int getByte() {
-		return (start << 11) | (end << 6) | (promo == null ? 0 : promo.getByte());  
+	public short getCompressed() {
+		return (short) ((start << 11) | (end << 6) | (promo == null ? 0 : promo.getByte()));  
+	}
+	
+	public static void main(String[] args) {
+		int start = 12;
+		int end = 20;
+		Move promo = null;
+		short x = (short) ((start << 11) | (end << 6) | (promo == null ? 0 : promo.getCompressed()));
+		System.out.println(x);
 	}
 	
 }

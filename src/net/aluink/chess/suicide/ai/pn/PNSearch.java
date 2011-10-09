@@ -119,11 +119,13 @@ public class PNSearch {
 			int n = NODES[index].firstChild = endIndex;
 			endIndex += moves.size();
 			PNNode tmp = null;
+			int i = 0;
 			while(n < endIndex){
 				tmp = NODES[n];
 				tmp.parent = index;
 				tmp.proof = tmp.disproof = 1;
 				tmp.sibling = ++n;
+				tmp.move = moves.get(i).getCompressed();
 				tmp.firstChild = -1;
 				nodecount++;
 			}
@@ -159,7 +161,7 @@ public class PNSearch {
 				}
 			}
 		}
-		board.makeMove(m);
+		board.makeMove(new Move(NODES[n].move));
 		return findMostProvingNode(n);
 	}
 }

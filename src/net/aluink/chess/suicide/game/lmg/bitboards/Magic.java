@@ -127,8 +127,6 @@ public class Magic {
 				RMagic[i].attSets[j] = -1;
 			}
 			for(long j = 0;j < attSetCount;j++){
-				if(i == 63 && j == 4065)
-					System.out.println();
 				long bb = 0L;
 				int bit = i;
 				while((bit / 8 > 1)) bit += DOWN;

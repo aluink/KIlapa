@@ -120,7 +120,7 @@ public class BookNode {
 	void store(FileOutputStream fos) throws IOException {
 		fos.write(children.size());
 		for(Move m : moves){
-			fos.write(m.getByte());
+			fos.write(m.getCompressed());
 		}
 		for(Integer i : scores){
 			fos.write(i);
