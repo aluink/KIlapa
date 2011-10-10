@@ -139,16 +139,12 @@ public class PNSearch {
 			return index;
 		}
 		
-		Stack<Move> moves = lmg.getLegalMoves(board);
-		
 		int n = node.firstChild;
-		Move m = moves.get(0);
 		
 		if(board.getTurn() == rootColor){
 			for(int i = 0;n >= 0;n = NODES[n].sibling, i++){
 				PNNode tmp = NODES[n];
 				if(tmp.proof == node.proof){
-					m = moves.get(i);
 					break;
 				}
 			}
@@ -156,12 +152,12 @@ public class PNSearch {
 			for(int i = 0;n >= 0;n = NODES[n].sibling, i++){
 				PNNode tmp = NODES[n];
 				if(tmp.disproof == node.disproof){
-					m = moves.get(i);
 					break;
 				}
 			}
 		}
-		board.makeMove(new Move(NODES[n].move));
+		PNNode t = NODES[n];
+		board.makeMove(new Move(t.move));
 		return findMostProvingNode(n);
 	}
 }

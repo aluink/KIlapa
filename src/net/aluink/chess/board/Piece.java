@@ -20,6 +20,18 @@ public class Piece {
 			index = i;
 		}
 		
+		public static Type fromIndex(int i){
+			switch(i){
+				case 0:return KING;
+				case 1:return QUEEN;
+				case 2:return BISHOP;
+				case 3:return KNIGHT;
+				case 4:return ROOK;
+				case 5:return PAWN;
+			}
+			return null;
+		}
+		
 		public int getIndex(){
 			return index;
 		}
@@ -106,5 +118,9 @@ public class Piece {
 
 	public byte getByte() {
 		return (byte) ((1 << 4) | (getColor() == Color.WHITE ? (1 << 3) : 0) | (getType().getIndex()));
+	}
+
+	public static Piece fromCompressed(int i) {
+		return new Piece((i >> 3 & 1) == 1 ? Color.WHITE : Color.BLACK, Type.fromIndex(i & 0x7));
 	}
 }

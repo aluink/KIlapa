@@ -39,7 +39,8 @@ public class Move {
 	public Move(short move) {
 		this.start = move >> 11 & 0x7F;
 		this.end = move >> 6 & 0x7F;
-		promo = null;		
+		this.ep = (move >> 5 & 1) == 1; 
+		promo = Piece.fromCompressed(move & 0x7F);		
 	}
 
 	public int getStart() {
@@ -56,7 +57,7 @@ public class Move {
 	}
 	
 	public String toString(){
-		return "" + (char)((start%8) + 'a') + (start/8 + 1) + (char)((end%8)+'a') + (end/8+1) + (promo != null ? Character.toUpperCase(promo.getFen()) : "");
+		return "" + (char)((start%8) + 'a') + (start/8 + 1) + (char)((end%8)+'a') + (end/8+1) + (promo != null ? (promo.getColor() == Color.WHITE ? Character.toUpperCase(promo.getFen()) + "" : promo.getFen() + "") : "");
 	}
 	
 	public static Move [] promoSet(int start, int end, Color c){
@@ -86,15 +87,13 @@ public class Move {
 	}
 
 	public short getCompressed() {
-		return (short) ((start << 11) | (end << 6) | (promo == null ? 0 : promo.getByte()));  
+		return (short) ((start << 11) | (end << 6) | ((ep?1:0) << 5) | (promo == null ? 0 : promo.getByte()));  
 	}
 	
 	public static void main(String[] args) {
-		int start = 12;
-		int end = 20;
-		Move promo = null;
-		short x = (short) ((start << 11) | (end << 6) | (promo == null ? 0 : promo.getCompressed()));
-		System.out.println(x);
+		short x = -30208;
+		Move m = new Move(x);
+		System.out.println(m);
 	}
 	
 }

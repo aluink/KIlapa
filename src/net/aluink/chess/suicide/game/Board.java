@@ -390,7 +390,7 @@ public class Board {
 	}
 	
 	public static void main(String[] args) {
-		Board.printBitboard(4755801206503243776L);
+		Board.printBitboard(9115426935197958144L);
 	}
 
 	public long[][] getBitBoards() {
