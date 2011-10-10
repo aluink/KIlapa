@@ -37,10 +37,10 @@ public class Move {
 	}
 
 	public Move(short move) {
-		this.start = move >> 11 & 0x7F;
-		this.end = move >> 6 & 0x7F;
+		this.start = move >> 11 & 0x1F;
+		this.end = move >> 6 & 0x1F;
 		this.ep = (move >> 5 & 1) == 1; 
-		promo = Piece.fromCompressed(move & 0x7F);		
+		promo = ((move >> 4 & 1) == 1) ? Piece.fromCompressed(move & 0x1F) : null;		
 	}
 
 	public int getStart() {
