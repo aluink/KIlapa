@@ -36,11 +36,11 @@ public class Move {
 		this(m.start, m.end, m.promo, m.ep);
 	}
 
-	public Move(short move) {
-		this.start = move >> 11 & 0x1F;
-		this.end = move >> 6 & 0x1F;
+	public Move(int move) {
+		this.start = move >> 26 & 0x3F;
+		this.end = move >> 20 & 0x3F;
 		this.ep = (move >> 5 & 1) == 1; 
-		promo = ((move >> 4 & 1) == 1) ? Piece.fromCompressed(move & 0x1F) : null;		
+		promo = ((move >> 4 & 1) == 1) ? Piece.fromCompressed(move & 0xF) : null;		
 	}
 
 	public int getStart() {
@@ -86,8 +86,8 @@ public class Move {
 		return start == m.start && end == m.end && promo == m.promo && ep == m.ep;
 	}
 
-	public short getCompressed() {
-		return (short) ((start << 11) | (end << 6) | ((ep?1:0) << 5) | (promo == null ? 0 : promo.getByte()));  
+	public int getCompressed() {
+		return ((start << 26) | (end << 20) | ((ep?1:0) << 5) | (promo == null ? 0 : promo.getByte()));  
 	}
 	
 	public static void main(String[] args) {

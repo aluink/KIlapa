@@ -75,7 +75,7 @@ public class Kilapa {
 					Move m;
 					if(validMove(start, end) && moves.contains(m = new Move(start,end))){
 					 	m = moves.get(moves.indexOf(m));
-					 	short t = m.getCompressed();
+					 	int t = m.getCompressed();
 					 	System.out.println(t);
 						b.makeMove(m);
 					} else {

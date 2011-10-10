@@ -8,6 +8,7 @@ import net.aluink.chess.suicide.game.Board;
 import net.aluink.chess.suicide.game.Move;
 import net.aluink.chess.suicide.game.lmg.LegalMoveGenerator;
 import net.aluink.chess.suicide.game.lmg.SuicideLMG;
+import net.aluink.chess.suicide.game.lmg.bitboards.Magic;
 
 public class PN2 extends PNSearch {
 	
@@ -17,6 +18,7 @@ public class PN2 extends PNSearch {
 	
 	
 	public void pn2Search(Board b, int maxNodecount, LegalMoveGenerator lmg){
+		Magic.init();
 		NODES = PNSearch.init(maxNodecount);
 		board = b;
 		this.lmg = lmg;

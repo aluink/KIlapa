@@ -390,7 +390,11 @@ public class Board {
 	}
 	
 	public static void main(String[] args) {
-		Board.printBitboard(9115426935197958144L);
+		int x = -1551892480;
+		for(int i = 31;i >= 0;i--){
+			System.out.print(x >> i & 1);
+		}
+//		Board.printBitboard();
 	}
 
 	public long[][] getBitBoards() {

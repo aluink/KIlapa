@@ -5,7 +5,7 @@ public class PNNode {
 	int proof;
 	int disproof;
 	int firstChild;
-	short move; // Move from parent to here
+	int move; // Move from parent to here
 	int sibling;
 	int parent;
 	

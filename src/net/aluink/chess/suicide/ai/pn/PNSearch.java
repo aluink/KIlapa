@@ -50,8 +50,11 @@ public class PNSearch {
 		root.parent = -1;
 		nodecount = 0;
 		while(nodecount < maxNodecount && root.proof != 0 && root.disproof != 0){
+//			b.printBoard();
 			int node = findMostProvingNode(rIndex);
+//			b.printBoard();
 			expand(node);
+//			b.printBoard();
 			updateNodes(node);
 		}
 		
@@ -125,7 +128,8 @@ public class PNSearch {
 				tmp.parent = index;
 				tmp.proof = tmp.disproof = 1;
 				tmp.sibling = ++n;
-				tmp.move = moves.get(i).getCompressed();
+				Move m = moves.get(i++);
+				tmp.move = m.getCompressed();
 				tmp.firstChild = -1;
 				nodecount++;
 			}
@@ -157,7 +161,11 @@ public class PNSearch {
 			}
 		}
 		PNNode t = NODES[n];
-		board.makeMove(new Move(t.move));
+		Move m = new Move(t.move);
+		if(m.getStart() == m.getEnd()){
+			System.out.println("Error");
+		}
+		board.makeMove(m);
 		return findMostProvingNode(n);
 	}
 }
