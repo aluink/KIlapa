@@ -1,5 +1,9 @@
 package net.aluink.chess.suicide.ai.egtbl;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.Stack;
@@ -95,7 +99,48 @@ public class TwoPiece {
 		}
 	}
 	
-	public static void main(String[] args) throws IOException {
+	public static void playWithTable(){
+		LegalMoveGenerator lmg = new SuicideLMG();
+		System.out.println("Load a board: ");
+		Scanner scanner = new Scanner(System.in);
+		int x = scanner.nextInt();
+		int y = scanner.nextInt();
+		int k = scanner.nextInt();
+		int l = scanner.nextInt();
+		Board b = setupBoard(x,y,k,l);
+		boolean eog = false;
+		while(true){
+			int [] index = getBoardIndex(b);
+			
+			b.printBoard();
+			int tmp = table[index[0]][index[1]][index[2]][index[3]];
+			System.out.println("EGTBL value: " + tmp);
+			Stack<Move> moves = lmg.getLegalMoves(b);
+			Move move = null;
+			for(Move m : moves){
+				b.makeMove(m);
+				index = getBoardIndex(b);
+				if(index[2] == -1 || index[3] == -1){
+					System.out.println("EOG");
+					eog = true;
+					break;
+				}
+				if((table[index[0]][index[1]][index[2]][index[3]] < 0 && -table[index[0]][index[1]][index[2]][index[3]]-1 == tmp) ||
+					(table[index[0]][index[1]][index[2]][index[3]] > 0 && -table[index[0]][index[1]][index[2]][index[3]]+1 == tmp)){
+					move = m;
+					b.unmakeMove();
+					break;
+				}
+					
+				b.unmakeMove();
+			}
+			if(eog)
+				break;
+			b.makeMove(move);
+		}
+	}
+	
+	public static void generateTables() throws IOException{
 		initializeTableGenerator();
 		LegalMoveGenerator lmg = new SuicideLMG();
 		for(int i = 0;i < 5;i++){
@@ -128,40 +173,26 @@ public class TwoPiece {
 		}
 		
 		generatePawnTables();
-		verifyTables(lmg);
-
-		System.out.println("Load a board: ");
-		Scanner scanner = new Scanner(System.in);
-		int x = scanner.nextInt();
-		int y = scanner.nextInt();
-		int k = scanner.nextInt();
-		int l = scanner.nextInt();
-		Board b = boards[x][y][k][l];
-		while(true){
-			int [] index = getBoardIndex(b);
-			b.printBoard();
-			int tmp = table[index[0]][index[1]][index[2]][index[3]];
-			System.out.println("EGTBL value: " + tmp);
-			Stack<Move> moves = lmg.getLegalMoves(b);
-			Move move = null;
-			for(Move m : moves){
-				b.makeMove(m);
-				index = getBoardIndex(b);
-				if((table[index[0]][index[1]][index[2]][index[3]] < 0 && -table[index[0]][index[1]][index[2]][index[3]]-1 == tmp) ||
-					(table[index[0]][index[1]][index[2]][index[3]] > 0 && -table[index[0]][index[1]][index[2]][index[3]]+1 == tmp)){
-					move = m;
-					b.unmakeMove();
-					break;
-				}
-					
-				b.unmakeMove();
-			}
-			b.makeMove(move);
+		
+		try {
+			verifyTables(lmg);
+			storeTables("twoPiece.tbl");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		
+		boards = null;
 		
 	}
 	
-	private static void verifyTables(LegalMoveGenerator lmg) {
+	public static void main(String[] args) throws IOException {
+//		generateTables();
+//		playWithTable();
+		loadTables("twoPiece.tbl");
+		playWithTable();
+	}
+	
+	private static void verifyTables(LegalMoveGenerator lmg) throws Exception {
 		for(int i = 0;i < 5;i++){
 			for(int j = 0;j < 5;j++){
 				for(int l = 0;l < 64;l++){
@@ -187,14 +218,12 @@ public class TwoPiece {
 							b.unmakeMove();
 							
 						}
-						if(i == 3 && j == 3 && l == 0 && m == 13)
-							System.out.println();
 						if(max < 0 && table[i][j][l][m] != max+1){
-							System.out.println("Expected " + (max+1) + " " + table[i][j][l][m] + " at (" + i + "," + j + "," + l + "," + m + ")");
+							throw new Exception("Expected " + (max+1) + " " + table[i][j][l][m] + " at (" + i + "," + j + "," + l + "," + m + ")");
 						} else if(max > 0 && table[i][j][l][m] != max-1){
-							System.out.println("Expected " + (max-1) + " " + table[i][j][l][m] + " at (" + i + "," + j + "," + l + "," + m + ")");
+							throw new Exception("Expected " + (max-1) + " " + table[i][j][l][m] + " at (" + i + "," + j + "," + l + "," + m + ")");
 						} else if(max == 0 && table[i][j][l][m] != 0){
-							System.out.println("Expected 0 " + table[i][j][l][m] + " at (" + i + "," + j + "," + l + "," + m + ")");
+							throw new Exception("Expected 0 " + table[i][j][l][m] + " at (" + i + "," + j + "," + l + "," + m + ")");
 						}
 							
 					}
@@ -215,6 +244,35 @@ public class TwoPiece {
 		}
 	}
 
+	public static void loadTables(String fn) throws IOException{
+		DataInputStream dis = new DataInputStream(new FileInputStream(fn));
+		table = new byte[6][6][64][64];
+		for(int i = 0;i < 6;i++){
+			for(int j = 0;j < 6;j++){
+				for(int k = 0;k < 64;k++){
+					for(int l = 0;l < 64;l++){
+						table[i][j][k][l] = dis.readByte();
+					}
+				}
+			}
+		}
+		dis.close();
+	}
+	
+	public static void storeTables(String fn) throws IOException{
+		DataOutputStream dos = new DataOutputStream(new FileOutputStream(fn));
+		for(int i = 0;i < 6;i++){
+			for(int j = 0;j < 6;j++){
+				for(int k = 0;k < 64;k++){
+					for(int l = 0;l < 64;l++){
+						 dos.writeByte(table[i][j][k][l]);
+					}
+				}
+			}
+		}
+		dos.close();
+	}
+	
 	public static Move getBestMove(int p1, int p2, int x, int y){
 		return null;
 	}

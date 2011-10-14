@@ -12,6 +12,7 @@ import net.aluink.chess.board.Piece.Type;
 public class Board {
 	private Piece [] pos;
 	private Color turn;
+	private byte pieceCount = 0;
 	public static final String STARTING_POS = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w"; 
 	
 	long [] hash = {0L,0L};
@@ -37,6 +38,7 @@ public class Board {
 	public void setPos(int i, Piece p){
 		if(pos[i] != null)
 			unsetPos(i);
+		pieceCount++;
 		pos[i] = p;
 		bitboards[p.getColor().getIndex()][p.getType().getIndex()] |= 1L << i;
 		hash[0] ^= hashpieces[0][p.getColor().getIndex()][p.getType().getIndex()][i];
@@ -216,7 +218,8 @@ public class Board {
 
 		bitboards[p.getColor().getIndex()][p.getType().getIndex()] &= ~(1L << i);
 		
-		pos[i] = null;		
+		pos[i] = null;
+		pieceCount--;
 	}
 
 	public Color getTurn(){
@@ -306,6 +309,7 @@ public class Board {
 		System.out.println("\nTurn: " + (turn == Color.WHITE ? "White" : "Black"));
 		System.out.printf("%X %X\n", hash[0], hash[1]);
 		System.out.println("Fen: " + getFen());
+		System.out.println("PieceCount: " + pieceCount);
 	}
 
 	public Piece getPos(int i) {
@@ -358,6 +362,7 @@ public class Board {
 	public void setFen(String fen) throws Exception {
 		hash[0] = hash[1] = 0;
 		pos = new Piece[64];
+		pieceCount = 0;
 		int i = 0;
 		fen = fen.trim();
 		for(int row = 7;row >= 0;row--){

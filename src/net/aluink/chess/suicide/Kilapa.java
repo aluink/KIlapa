@@ -30,8 +30,18 @@ public class Kilapa {
 				b.printBoard();
 				moves = lgm.getLegalMoves(b);
 			}
+			if(moves.size() == 0){
+				sp = null;
+			}
 			if(sp != null && sp.getSide() == b.getTurn()){
-				Move m = sp.getMove();
+				PNSearch pn = new PNSearch();
+				pn.search(b, 400000, new SuicideLMG());
+				Move m;
+				if(pn.getProof() == 0){
+					m = moves.elementAt(pn.getWinningChild());
+				} else {
+					m = sp.getMove();
+				}
 				System.out.println("Engine plays: " + m);
 				b.makeMove(m);
 				continue;
@@ -91,8 +101,6 @@ public class Kilapa {
 					Move m;
 					if(validMove(start, end) && moves.contains(m = new Move(start,end))){
 					 	m = moves.get(moves.indexOf(m));
-					 	int t = m.getCompressed();
-					 	System.out.println(t);
 						b.makeMove(m);
 					} else {
 						throw new Exception();

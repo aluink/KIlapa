@@ -21,17 +21,31 @@ public class PNSearch {
 	long nodecount;
 	int endIndex;
 	
+	public int getProof(){
+		return root.proof;
+	}
+	
+	public int getWinningChild(){
+		int itr = root.firstChild;
+		int i = 0;
+		while(itr != -1){
+			if(NODES[itr].proof == 0)
+				return i;
+			i++;
+			itr = NODES[itr].sibling;
+		}
+		return i;
+	}
+	
 	public static PNNode [] init(){
 		return init(1000000);
 	}
 	
 	public static PNNode [] init(int np){
-		System.out.print("Initializing " + np + " pn nodes...");
 		PNNode [] nodes = new PNNode[np];
 		for(int i = 0;i < np;i++){
 			nodes[i] = new PNNode();
 		}
-		System.out.println("done.");
 		return nodes;
 	}
 	
@@ -160,24 +174,24 @@ public class PNSearch {
 			}
 		}
 		if(n == -1){
-			System.out.println("Error in FMP, printing state");
-			PNNode tmpNode = node;
-			Queue<PNNode> q = new LinkedList<PNNode>();
-			q.add(tmpNode);
-			while(tmpNode.parent != -1){
-				tmpNode = NODES[tmpNode.parent];
-				q.add(tmpNode);
-			}
-			while(!q.isEmpty()){
-				tmpNode = q.remove();
-				System.out.println(tmpNode);
-			}
-			System.out.println();
-			while(!board.atBeginning()){
-				board.printBoard();
-				board.unmakeMove();
-			}
-			System.out.println();
+//			System.out.println("Error in FMP, printing state");
+//			PNNode tmpNode = node;
+//			Queue<PNNode> q = new LinkedList<PNNode>();
+//			q.add(tmpNode);
+//			while(tmpNode.parent != -1){
+//				tmpNode = NODES[tmpNode.parent];
+//				q.add(tmpNode);
+//			}
+//			while(!q.isEmpty()){
+//				tmpNode = q.remove();
+//				System.out.println(tmpNode);
+//			}
+//			System.out.println();
+//			while(!board.atBeginning()){
+//				board.printBoard();
+//				board.unmakeMove();
+//			}
+//			System.out.println();
 		}
 		try {
 			PNNode t = NODES[n];
@@ -185,26 +199,26 @@ public class PNSearch {
 			board.makeMove(m);
 			return findMostProvingNode(n);
 		} catch (Exception e) {
-			System.out.println("Error in FMP, printing state");
-			PNNode tmpNode = node;
-			Queue<PNNode> q = new LinkedList<PNNode>();
-			q.add(tmpNode);
-			while(tmpNode.parent != -1){
-				tmpNode = NODES[tmpNode.parent];
-				q.add(tmpNode);
-			}
-			while(!q.isEmpty()){
-				tmpNode = q.remove();
-				System.out.println(tmpNode);
-			}
-			System.out.println();
-			while(!board.atBeginning()){
-				board.printBoard();
-				board.unmakeMove();
-			}
-			System.out.println();
-			e.printStackTrace();
-			System.out.println("Exiting");
+//			System.out.println("Error in FMP, printing state");
+//			PNNode tmpNode = node;
+//			Queue<PNNode> q = new LinkedList<PNNode>();
+//			q.add(tmpNode);
+//			while(tmpNode.parent != -1){
+//				tmpNode = NODES[tmpNode.parent];
+//				q.add(tmpNode);
+//			}
+//			while(!q.isEmpty()){
+//				tmpNode = q.remove();
+//				System.out.println(tmpNode);
+//			}
+//			System.out.println();
+//			while(!board.atBeginning()){
+//				board.printBoard();
+//				board.unmakeMove();
+//			}
+//			System.out.println();
+//			e.printStackTrace();
+//			System.out.println("Exiting");
 			System.exit(1);
 			return -1;
 		}
