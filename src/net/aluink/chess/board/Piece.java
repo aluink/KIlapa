@@ -1,5 +1,8 @@
 package net.aluink.chess.board;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Piece {
 	public enum Color {
 		WHITE(0),	BLACK(1);
@@ -9,6 +12,12 @@ public class Piece {
 		}
 		public int getIndex(){
 			return index;
+		}
+		public Color other() {
+			switch(this){
+				case WHITE: return BLACK;
+				default: return WHITE;
+			}
 		}
 	};
 	
@@ -40,19 +49,32 @@ public class Piece {
 		
 	};
 	
+	public static List<Piece> getPieceSet(Color c){
+		switch(c){
+			case WHITE: return Arrays.asList(WKING,WQUEEN,WBISHOP,WKNIGHT,WROOK,WPAWN);
+			case BLACK: return Arrays.asList(BKING,BQUEEN,BBISHOP,BKNIGHT,BROOK,BPAWN);
+			default: return null;
+		}
+		
+	}
+	
 	public static Piece WKING = new Piece(Color.WHITE, Type.KING);
-	public static Piece WPAWN = new Piece(Color.WHITE, Type.PAWN);
-	public static Piece WROOK = new Piece(Color.WHITE, Type.ROOK);
-	public static Piece WKNIGHT = new Piece(Color.WHITE, Type.KNIGHT);
-	public static Piece WBISHOP = new Piece(Color.WHITE, Type.BISHOP);
 	public static Piece WQUEEN = new Piece(Color.WHITE, Type.QUEEN);
+	public static Piece WBISHOP = new Piece(Color.WHITE, Type.BISHOP);
+	public static Piece WKNIGHT = new Piece(Color.WHITE, Type.KNIGHT);
+	public static Piece WROOK = new Piece(Color.WHITE, Type.ROOK);
+	public static Piece WPAWN = new Piece(Color.WHITE, Type.PAWN);
 	
 	public static Piece BKING = new Piece(Color.BLACK, Type.KING);
-	public static Piece BPAWN = new Piece(Color.BLACK, Type.PAWN);
-	public static Piece BROOK = new Piece(Color.BLACK, Type.ROOK);
-	public static Piece BKNIGHT = new Piece(Color.BLACK, Type.KNIGHT);
-	public static Piece BBISHOP = new Piece(Color.BLACK, Type.BISHOP);
 	public static Piece BQUEEN = new Piece(Color.BLACK, Type.QUEEN);
+	public static Piece BBISHOP = new Piece(Color.BLACK, Type.BISHOP);
+	public static Piece BKNIGHT = new Piece(Color.BLACK, Type.KNIGHT);
+	public static Piece BROOK = new Piece(Color.BLACK, Type.ROOK);
+	
+	
+
+	public static Piece BPAWN = new Piece(Color.BLACK, Type.PAWN);
+
 	
 	private Color color;
 	private Type type;

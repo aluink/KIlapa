@@ -1,5 +1,8 @@
 package net.aluink.chess.suicide;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -13,13 +16,15 @@ import net.aluink.chess.suicide.game.lmg.SuicideLMG;
 import net.aluink.chess.suicide.game.lmg.bitboards.Magic;
 
 public class Kilapa {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		Scanner s = new Scanner(System.in);
 		Board b = null;
 		LegalMoveGenerator lgm = new SuicideLMG();
 		SuicidePlayer sp = null;
 		Stack<Move> moves = new Stack<Move>();
 		Magic.init();
+		String command;
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		while(true){
 			if(b != null){
 				b.printBoard();
@@ -31,7 +36,8 @@ public class Kilapa {
 				b.makeMove(m);
 				continue;
 			}
-			String command = s.next();		
+			
+			command = br.readLine();
 			if(command.equals("quit")){
 				break;
 			} else if(command.equals("go")){
@@ -52,6 +58,16 @@ public class Kilapa {
 				b.unmakeMove();
 			} else if(command.equals("printbb")){
 				b.printBitboards();
+			} else if(command.startsWith("setFen")){
+				String fen = command.substring(7).trim();
+				System.out.println("Setting fen: " + fen);
+				try {
+					b = new Board();
+					b.setFen(fen);
+					b.printBoard();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			} else if(command.equals("test")){
 				for(Move m : moves){
 					System.out.println(m);

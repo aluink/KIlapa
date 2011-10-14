@@ -17,6 +17,15 @@ public class Move {
 		this.promo = promo;
 	}
 
+	public Move(String m){
+		int scol = m.charAt(0)-'a';
+		int srow = m.charAt(1)-'1';
+		int ecol = m.charAt(2)-'a';
+		int erow = m.charAt(3)-'1';
+		this.start = srow*8+scol;
+		this.end = erow*8+ecol;
+	}
+	
 	public Move(int start, int end){
 		this(start,end, null, false);
 	}

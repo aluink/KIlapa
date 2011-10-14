@@ -14,7 +14,7 @@ public class SuicidePlayer implements ChessPlayer {
 	
 	Board b;
 	Color c;
-	static final int INF = 300000;
+	public static final int INF = 300000;
 	
 	long starttime;
 	long PLAY_TIME = 5000L;

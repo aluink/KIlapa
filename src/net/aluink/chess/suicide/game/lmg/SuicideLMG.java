@@ -23,6 +23,9 @@ public class SuicideLMG implements LegalMoveGenerator {
 	long otherBoard;
 	long [][] bbs;
 	
+	public SuicideLMG(){
+		Magic.init();
+	}
 	
 	Board b;
 	

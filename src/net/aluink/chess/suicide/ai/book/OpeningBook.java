@@ -1,5 +1,6 @@
 package net.aluink.chess.suicide.ai.book;
 
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -34,7 +35,7 @@ public class OpeningBook {
 	
 	void store(File f){
 		try {
-			FileOutputStream fos = new FileOutputStream(f);
+			DataOutputStream fos = new DataOutputStream(new FileOutputStream(f));
 			for(String fen : book.keySet()){
 				fos.write(fen.getBytes());
 				fos.write((int) ':');

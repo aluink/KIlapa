@@ -1,5 +1,7 @@
 package net.aluink.chess.suicide.ai.pn;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 import net.aluink.chess.board.Piece.Color;
@@ -50,11 +52,8 @@ public class PNSearch {
 		root.parent = -1;
 		nodecount = 0;
 		while(nodecount < maxNodecount && root.proof != 0 && root.disproof != 0){
-//			b.printBoard();
 			int node = findMostProvingNode(rIndex);
-//			b.printBoard();
 			expand(node);
-//			b.printBoard();
 			updateNodes(node);
 		}
 		
@@ -160,12 +159,54 @@ public class PNSearch {
 				}
 			}
 		}
-		PNNode t = NODES[n];
-		Move m = new Move(t.move);
-		if(m.getStart() == m.getEnd()){
-			System.out.println("Error");
+		if(n == -1){
+			System.out.println("Error in FMP, printing state");
+			PNNode tmpNode = node;
+			Queue<PNNode> q = new LinkedList<PNNode>();
+			q.add(tmpNode);
+			while(tmpNode.parent != -1){
+				tmpNode = NODES[tmpNode.parent];
+				q.add(tmpNode);
+			}
+			while(!q.isEmpty()){
+				tmpNode = q.remove();
+				System.out.println(tmpNode);
+			}
+			System.out.println();
+			while(!board.atBeginning()){
+				board.printBoard();
+				board.unmakeMove();
+			}
+			System.out.println();
 		}
-		board.makeMove(m);
-		return findMostProvingNode(n);
+		try {
+			PNNode t = NODES[n];
+			Move m = new Move(t.move);
+			board.makeMove(m);
+			return findMostProvingNode(n);
+		} catch (Exception e) {
+			System.out.println("Error in FMP, printing state");
+			PNNode tmpNode = node;
+			Queue<PNNode> q = new LinkedList<PNNode>();
+			q.add(tmpNode);
+			while(tmpNode.parent != -1){
+				tmpNode = NODES[tmpNode.parent];
+				q.add(tmpNode);
+			}
+			while(!q.isEmpty()){
+				tmpNode = q.remove();
+				System.out.println(tmpNode);
+			}
+			System.out.println();
+			while(!board.atBeginning()){
+				board.printBoard();
+				board.unmakeMove();
+			}
+			System.out.println();
+			e.printStackTrace();
+			System.out.println("Exiting");
+			System.exit(1);
+			return -1;
+		}
 	}
 }

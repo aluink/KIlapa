@@ -34,7 +34,7 @@ public class Board {
 	
 	
 	
-	private void setPos(int i, Piece p){
+	public void setPos(int i, Piece p){
 		if(pos[i] != null)
 			unsetPos(i);
 		pos[i] = p;
@@ -389,6 +389,22 @@ public class Board {
 		}			
 	}
 	
+	public void setTurn(Color c){
+		if(turn == c)
+			return;
+		if(turn == null){
+			if(c == Color.WHITE)
+				turn = c;
+			else {
+				turn = Color.BLACK;
+				hash[0] = hashturns[0];
+				hash[1] = hashturns[1];
+			}
+		} else
+			flipTurn();
+		
+	}
+	
 	public static void main(String[] args) {
 		int x = -1551892480;
 		for(int i = 31;i >= 0;i--){
@@ -399,6 +415,10 @@ public class Board {
 
 	public long[][] getBitBoards() {
 		return bitboards;
+	}
+
+	public boolean atBeginning() {
+		return moves.isEmpty();
 	}
 	
 }

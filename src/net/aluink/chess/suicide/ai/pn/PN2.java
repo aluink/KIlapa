@@ -1,9 +1,16 @@
 package net.aluink.chess.suicide.ai.pn;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Stack;
 
+import net.aluink.chess.board.Piece.Color;
+import net.aluink.chess.suicide.ai.SuicidePlayer;
+import net.aluink.chess.suicide.ai.book.BookNode;
 import net.aluink.chess.suicide.game.Board;
 import net.aluink.chess.suicide.game.Move;
 import net.aluink.chess.suicide.game.lmg.LegalMoveGenerator;
@@ -15,7 +22,65 @@ public class PN2 extends PNSearch {
 	double A = 5000000;//130000;
 	double B = 1000000;
 	
+	private static Object [] leadingSpaces(String str){
+		int i = 0;
+		while(str.charAt(i++) == ' ');
+		Object [] ret = {new Integer(--i), str.trim()};
+		return ret;
+		
+	}
 	
+	public static BookNode parseResults(String file) throws Exception{
+		BufferedReader fr = new BufferedReader(new FileReader(file));
+		BookNode root;
+		try {
+			String fen = fr.readLine();
+			Board b = new Board();
+			b.setFen(fen);
+			int score = SuicidePlayer.INF;
+			if(b.getTurn() == Color.BLACK)
+				score *= -1;
+			
+			root = new BookNode();
+			BookNode itr = root;
+			String line;
+			int depth = 0;
+			while((line = fr.readLine()) != null){
+				Object [] split = leadingSpaces(line);
+				int d = (Integer) split[0];
+				line = (String) split[1];
+				if(d < depth){
+					while(d < depth){
+						b.unmakeMove();
+						itr = itr.getParent();
+						depth--;
+					}
+				} else if(d > depth){
+					throw new Exception("Error");
+				}
+				
+				depth++;
+				Move m = new Move(line);
+				b.makeMove(m);
+				BookNode tmp = new BookNode();
+				
+				tmp.setFen(b.getFen());
+				itr.addChild(tmp);
+				tmp.setMove(m);
+				tmp.setScore(score);
+				tmp.setParent(itr);
+				
+				itr = tmp;
+				
+			}
+		} finally {
+			fr.close();
+		}
+
+
+		
+		return root;
+	}
 	
 	public void pn2Search(Board b, int maxNodecount, LegalMoveGenerator lmg){
 		Magic.init();
@@ -29,10 +94,11 @@ public class PN2 extends PNSearch {
 		long time = System.currentTimeMillis();
 		int arrayOffset = 1;
 		long subtreeSize;
+		long startTime = System.currentTimeMillis();
 		System.out.println("PN2 searching " + maxNodecount);
 		while(root.proof != 0 && root.disproof != 0){
 			subtreeSize = subTreeSize(arrayOffset);
-			if(System.currentTimeMillis() - time > 10000){	
+			if(System.currentTimeMillis() - time > 60000){	
 				System.out.println(root.proof + " " + root.disproof + " " + arrayOffset + " " + subtreeSize + " " + total_nodecount + " " + (((total_nodecount-tmpcount) * 1000)/(System.currentTimeMillis() - time)));
 				tmpcount = total_nodecount;
 				time = System.currentTimeMillis();
@@ -52,6 +118,9 @@ public class PN2 extends PNSearch {
 			
 			updateNodes(node);
 		}
+		System.out.println("Done.");
+		System.out.println(root.proof + " " + root.disproof + " " + arrayOffset + " " + " " + total_nodecount + " " + (((total_nodecount-tmpcount) * 1000)/(System.currentTimeMillis() - time)));
+		System.out.println("Done in " + (System.currentTimeMillis() - startTime)/1000 + "s");
 	}
 	
 	public static void main(String[] args) throws Exception {
@@ -63,20 +132,29 @@ public class PN2 extends PNSearch {
 		int nc = Integer.valueOf(args[0]);
 		pn2.pn2Search(b, nc, new SuicideLMG());
 		
-		String filename = System.currentTimeMillis()%1000 + ".pnr";
-		FileWriter fr = null;
+		String filename;
 		try {
-			fr = new FileWriter(filename);
-			fr.write(args[1] + "\r\n");
-			pn2.printResults(fr, 0, 0);			
-		} finally{
-			if(fr != null){
-				fr.close();
-			}
+			filename = args[2];
+		} catch (Exception e) {
+			filename = System.currentTimeMillis()%1000 + ".pnr";
+			System.out.println("No filename provided, storing to " + filename);
 		}
 		
+		DataOutputStream dos = new DataOutputStream(new FileOutputStream(filename));
+		pn2.root.store(dos,b,pn2.NODES, pn2.rootColor);
+		dos.close();
+		
 	}
+	
+//	public static void main(String[] args) throws Exception {
+//		BookNode bn = parseResults("e3g6.pnr");
+//		DataOutputStream dos = new DataOutputStream(new FileOutputStream("e3g6.spr"));
+//		bn.store(dos);
+//		dos.close();
+//	}
 
+	
+	
 	private void printResults(FileWriter fr, int index, int offset) throws IOException {
 		int itr = NODES[index].firstChild;
 		if(itr == -1)

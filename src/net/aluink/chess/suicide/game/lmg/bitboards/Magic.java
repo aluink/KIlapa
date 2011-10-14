@@ -15,9 +15,14 @@ public class Magic {
 	public static final Magic [] RMagic = new Magic[64];
 	public static final Magic [] BMagic = new Magic[64];
 	
+	static private boolean initialized = false;
+	
 	public static void init(){
-		initBMagic();
-		initRMagic();
+		if(!initialized){
+			initBMagic();
+			initRMagic();
+			initialized = true;
+		}
 	}
 	
 	private Magic(){};
