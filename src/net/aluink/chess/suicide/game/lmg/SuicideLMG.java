@@ -336,7 +336,7 @@ public class SuicideLMG implements LegalMoveGenerator {
 			
 			if(!attacking.b){
 				getPawnMove(start, start+dir, moves, promo);
-				if(starting)
+				if(starting && b.getPos(start+dir) == null)
 					getPawnMove(start, start+dir+dir, moves, promo);
 			}
 		}		
