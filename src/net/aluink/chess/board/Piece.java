@@ -145,4 +145,10 @@ public class Piece {
 	public static Piece fromCompressed(int i) {
 		return new Piece((i >> 3 & 1) == 1 ? Color.WHITE : Color.BLACK, Type.fromIndex(i & 0x7));
 	}
+	
+	@Override
+	public boolean equals(Object rhs){
+		return getByte() == ((Piece)rhs).getByte();
+	}
+	
 }

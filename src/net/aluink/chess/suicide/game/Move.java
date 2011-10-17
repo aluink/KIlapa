@@ -1,7 +1,13 @@
 package net.aluink.chess.suicide.game;
 
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Stack;
+
 import net.aluink.chess.board.Piece;
 import net.aluink.chess.board.Piece.Color;
+import net.aluink.chess.board.Piece.Type;
 
 public class Move {
 	int start;
@@ -96,13 +102,130 @@ public class Move {
 	}
 
 	public int getCompressed() {
-		return ((start << 26) | (end << 20) | ((ep?1:0) << 5) | (promo == null ? 0 : promo.getByte()));  
+		return ((start << 26) | (end << 20) | ((ep?1:0) << 5) | (promo == null ? 0 : promo.getByte()));
+	}
+
+	public static Move getAlgebraicMove(Board b, Stack<Move> legalMoves, String aMove){
+		Move [] tmp;
+		List<Move> s = new LinkedList<Move>();
+		if(legalMoves.size() == 1)
+			return legalMoves.get(0);
+		if(Character.isLowerCase(aMove.charAt(0))){ //PAWN
+			int col = aMove.charAt(0) - 'a';
+			for(Move m : legalMoves){
+				if(m.getStart()%8 == col && b.getPos(m.getStart()).getType() == Type.PAWN){
+					s.add(m);
+				}
+			}
+			if(s.size() == 1)
+				return s.get(0);
+			
+			int row;
+			if(aMove.contains("x")){
+				col = aMove.charAt(aMove.indexOf('x')+1) - 'a';
+				row = aMove.charAt(aMove.indexOf('x')+2) - '1';
+				tmp = s.toArray(new Move[0]);
+				for(Move m : tmp){
+					if(b.getPos(m.getEnd()) == null || m.getEnd()%8 != col){
+						s.remove(m);
+					}
+				}
+			} else {
+				row = aMove.charAt(1) - '1'; 
+			}
+			if(s.size() == 1)
+				return s.get(0);
+			
+			tmp = s.toArray(new Move[0]);
+			for(Move m : tmp){
+				if(m.getEnd()/8 != row){
+					s.remove(m);
+				}
+			}
+			if(s.size() == 1)
+				return s.get(0);
+			
+			if("RNBQK".contains(aMove.substring(aMove.length()-1))){
+				char c = aMove.charAt(aMove.length()-1);
+				tmp = s.toArray(new Move[0]);
+				for(Move m : tmp){
+					if(m.getPromo() == null || Character.toUpperCase(m.getPromo().getFen()) != c)
+						s.remove(m);					
+				}
+			}
+			if(s.size() == 1)
+				return s.get(0);
+			
+			
+		} else {
+			Piece p = Piece.fromFen(b.getTurn() == Color.BLACK ? Character.toLowerCase(aMove.charAt(0)) : aMove.charAt(0));
+			
+			for(Move m : legalMoves){
+				if(b.getPos(m.getStart()).equals(p)){
+					s.add(m);
+				}
+			}
+			if(s.size() == 1)
+				return s.get(0);
+			
+			int endP, col = -1;
+			if(aMove.contains("x")){
+				endP = (aMove.charAt(3) - '1')*8 + (aMove.charAt(2) - 'a');
+				tmp = s.toArray(new Move[0]);
+				for(Move m : tmp){
+					if(b.getPos(m.getEnd()) == null){
+						s.remove(m);
+					}
+				}
+			} else if(!Character.isDigit(aMove.charAt(2))){
+				endP = (aMove.charAt(3) - '1')*8 + (aMove.charAt(2) - 'a');
+				col = (aMove.charAt(1) - 'a');
+			} else {
+				endP = (aMove.charAt(2) - '1')*8 + (aMove.charAt(1) - 'a');
+			}
+			
+			if(s.size() == 1)
+				return s.get(0);
+			
+			
+			tmp = s.toArray(new Move[0]);
+			for(Move m : tmp){
+				if(m.getEnd() != endP || (col != -1 && m.getStart()%8 != col)){
+					s.remove(m);
+				}
+			}
+			if(s.size() == 1)
+				return s.get(0);
+			
+			
+			if("RNBQK".contains(aMove.substring(aMove.length()-1))){
+				char c = aMove.charAt(aMove.length()-1);
+				tmp = s.toArray(new Move[0]);
+				for(Move m : tmp){
+					if(m.getPromo() == null || Character.toUpperCase(m.getPromo().getFen()) != c)
+						s.remove(m);			
+				}
+			}
+			if(s.size() == 1)
+				return s.get(0);
+			
+			
+		}
+		
+		System.out.println("Ambiguous algebraic move: " + aMove);
+		System.out.println("Narrowed it to ");
+		for(Move m : s){
+			System.out.println("\t" + m);
+		}
+		System.out.println("  from");
+		for(Move m : legalMoves){
+			System.out.println("\t" + m);
+		}
+		System.out.println("on board");
+		b.printBoard();
+		
+		return null;
 	}
 	
-	public static void main(String[] args) {
-		short x = -30208;
-		Move m = new Move(x);
-		System.out.println(m);
-	}
 	
 }
