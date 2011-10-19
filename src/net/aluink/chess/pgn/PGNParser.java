@@ -3,8 +3,10 @@ package net.aluink.chess.pgn;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 import java.util.regex.Pattern;
 
@@ -68,8 +70,6 @@ public class PGNParser {
 			}
 		}
 		
-		
-		
 		return games;
 	}
 	
@@ -84,6 +84,37 @@ public class PGNParser {
 	
 	public static void main(String[] args) throws IOException {
 		PGNParser parser = new PGNParser();
-		parser.parse("game1.pgn");
+		List<Game> games = parser.parse("FICS");
+		Map<String, Integer[]> fenResults = new HashMap<String, Integer[]>();
+		System.out.println(games.size() + " games read.");
+		for(Game g : games){
+			Board b = new Board();
+			b.setToStarting();
+			String result = g.getPairData("Result");
+			int dif = 0;
+			
+			if(result.equals("1-0")){
+				dif++;
+			} else if(result.equals("0-1")){
+				dif--;
+			}
+			for(Move m : g.getMoves()){
+				b.makeMove(m);
+				String fen = b.getFen();
+				Integer [] x = {0,0};
+				if(fenResults.containsKey(fen)){
+					x = fenResults.get(fen);					
+				}
+				x[0]++;
+				x[1] += dif;
+				fenResults.put(fen, x);
+			}
+		}
+		for(String key : fenResults.keySet()){
+			Integer [] x = fenResults.get(key);
+			if(x[0] > 2){
+				System.out.println(key + ": " + x[0] + " " + x[1]);
+			}
+		}
 	}
 }
