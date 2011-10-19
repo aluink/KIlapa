@@ -18,4 +18,12 @@ public class Game {
 	public void addMove(Move m){
 		moves.add(m);
 	}
+
+	public List<Move> getMoves() {
+		return moves;
+	}
+	
+	public String getPairData(String key){
+		return pairs.get(key);
+	}
 }
