@@ -84,6 +84,6 @@ public class PGNParser {
 	
 	public static void main(String[] args) throws IOException {
 		PGNParser parser = new PGNParser();
-		parser.parse("game1.pgn");
+		parser.parse("game2.pgn");
 	}
 }
