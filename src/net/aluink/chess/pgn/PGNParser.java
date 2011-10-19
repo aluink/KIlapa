@@ -112,7 +112,7 @@ public class PGNParser {
 		}
 		for(String key : fenResults.keySet()){
 			Integer [] x = fenResults.get(key);
-			if(x[0] > 2){
+			if(x[0] > 25){
 				System.out.println(key + ": " + x[0] + " " + x[1]);
 			}
 		}

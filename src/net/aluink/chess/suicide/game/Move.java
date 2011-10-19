@@ -108,6 +108,8 @@ public class Move {
 	public static Move getAlgebraicMove(Board b, Stack<Move> legalMoves, String aMove){
 		Move [] tmp;
 		List<Move> s = new LinkedList<Move>();
+		if(aMove.equals("Raxa6"))
+			System.out.println();
 		if(legalMoves.size() == 1)
 			return legalMoves.get(0);
 		if(Character.isLowerCase(aMove.charAt(0))){ //PAWN
@@ -168,18 +170,33 @@ public class Move {
 			if(s.size() == 1)
 				return s.get(0);
 			
-			int endP, col = -1;
+			int endP, col = -1, row = -1; // Raxa6
 			if(aMove.contains("x")){
-				endP = (aMove.charAt(3) - '1')*8 + (aMove.charAt(2) - 'a');
+				int xInd = 1;
+				char c = aMove.charAt(1);
+				if(c != 'x'){
+					xInd++;
+					if(Character.isDigit(c)){
+						row = c - '1';
+					} else {
+						col = c - 'a';
+					}
+				}
+				endP = (aMove.charAt(xInd+2) - '1')*8 + (aMove.charAt(xInd+1) - 'a');
 				tmp = s.toArray(new Move[0]);
 				for(Move m : tmp){
-					if(b.getPos(m.getEnd()) == null){
+					if(b.getPos(m.getEnd()) == null || (col != -1 && m.getStart()%8 != col) || (row != -1 && m.getStart()/8 != row)){
 						s.remove(m);
 					}
 				}
 			} else if(!Character.isDigit(aMove.charAt(2))){
 				endP = (aMove.charAt(3) - '1')*8 + (aMove.charAt(2) - 'a');
-				col = (aMove.charAt(1) - 'a');
+				char c = aMove.charAt(1);
+				if(Character.isDigit(c)){
+					row = c - '1';
+				} else {
+					col = c - 'a';
+				}
 			} else {
 				endP = (aMove.charAt(2) - '1')*8 + (aMove.charAt(1) - 'a');
 			}
@@ -190,7 +207,7 @@ public class Move {
 			
 			tmp = s.toArray(new Move[0]);
 			for(Move m : tmp){
-				if(m.getEnd() != endP || (col != -1 && m.getStart()%8 != col)){
+				if(m.getEnd() != endP || (col != -1 && m.getStart()%8 != col) || (row != -1 && m.getStart()/8 != row)){
 					s.remove(m);
 				}
 			}
