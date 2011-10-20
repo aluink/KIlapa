@@ -174,31 +174,31 @@ public class PNSearch {
 			}
 		}
 		if(n == -1){
-//			System.out.println("Error in FMP, printing state");
-//			PNNode tmpNode = node;
-//			Queue<PNNode> q = new LinkedList<PNNode>();
-//			q.add(tmpNode);
-//			while(tmpNode.parent != -1){
-//				tmpNode = NODES[tmpNode.parent];
-//				q.add(tmpNode);
-//			}
-//			while(!q.isEmpty()){
-//				tmpNode = q.remove();
-//				System.out.println(tmpNode);
-//			}
-//			System.out.println();
-//			while(!board.atBeginning()){
-//				board.printBoard();
-//				board.unmakeMove();
-//			}
-//			System.out.println();
+			System.out.println("Error in FMP, printing state");
+			PNNode tmpNode = node;
+			Queue<PNNode> q = new LinkedList<PNNode>();
+			q.add(tmpNode);
+			while(tmpNode.parent != -1){
+				tmpNode = NODES[tmpNode.parent];
+				q.add(tmpNode);
+			}
+			while(!q.isEmpty()){
+				tmpNode = q.remove();
+				System.out.println(tmpNode);
+			}
+			System.out.println();
+			while(!board.atBeginning()){
+				board.printBoard();
+				board.unmakeMove();
+			}
+			System.out.println();
 		}
-		try {
+//		try {
 			PNNode t = NODES[n];
 			Move m = new Move(t.move);
 			board.makeMove(m);
 			return findMostProvingNode(n);
-		} catch (Exception e) {
+//		} catch (Exception e) {
 //			System.out.println("Error in FMP, printing state");
 //			PNNode tmpNode = node;
 //			Queue<PNNode> q = new LinkedList<PNNode>();
@@ -219,8 +219,8 @@ public class PNSearch {
 //			System.out.println();
 //			e.printStackTrace();
 //			System.out.println("Exiting");
-			System.exit(1);
-			return -1;
-		}
+//			System.exit(1);
+//			return -1;
+//		}
 	}
 }

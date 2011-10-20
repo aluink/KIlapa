@@ -1,6 +1,7 @@
 package net.aluink.chess.pgn;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
@@ -60,7 +61,11 @@ public class PGNParser {
 						Stack<Move> legalMoves = lmg.getLegalMoves(b);
 						Move m = Move.getAlgebraicMove(b, legalMoves, ply);
 						g.addMove(m);
-						b.makeMove(m);
+						try {
+							b.makeMove(m);
+						} catch (Exception e) {
+							b.printBoard();
+						}
 					}
 					if(plys.length > 2 || (i < plys.length && plys[i].equals(result)))
 						break;
@@ -84,7 +89,11 @@ public class PGNParser {
 	
 	public static void main(String[] args) throws IOException {
 		PGNParser parser = new PGNParser();
-		List<Game> games = parser.parse("FICS");
+		File gameDB = new File("gameDb");
+		List<Game> games = new LinkedList<Game>();
+		for(String file : gameDB.list()){
+			games.addAll(parser.parse("gameDb\\" + file));
+		}
 		Map<String, Integer[]> fenResults = new HashMap<String, Integer[]>();
 		System.out.println(games.size() + " games read.");
 		for(Game g : games){
@@ -112,7 +121,7 @@ public class PGNParser {
 		}
 		for(String key : fenResults.keySet()){
 			Integer [] x = fenResults.get(key);
-			if(x[0] > 25){
+			if(x[0] > 125){
 				System.out.println(key + ": " + x[0] + " " + x[1]);
 			}
 		}
