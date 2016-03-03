@@ -20,7 +20,7 @@ public class SuicidePlayer implements ChessPlayer {
 	long PLAY_TIME = 5000L;
 	
 	long nodecount;
-//	long cutoffs, hashHits, hashCuts, hashBMCuts, killerCuts;
+	long cutoffs, hashHits, hashCuts, hashBMCuts, killerCuts;
 	boolean timeupflag;
 	
 	Hashtable table = new Hashtable(20000);
@@ -60,7 +60,7 @@ public class SuicidePlayer implements ChessPlayer {
 		nodecount = 0;
 		while(!timeupflag){
 			bestmove = cbestmove;
-//			hashBMCuts = cutoffs = hashHits = hashCuts = killerCuts = 0;
+			hashBMCuts = cutoffs = hashHits = hashCuts = killerCuts = 0;
 			for(Move m : moves){
 				b.makeMove(m);
 				if(depth == 8)
@@ -74,19 +74,20 @@ public class SuicidePlayer implements ChessPlayer {
 				if(timeup())
 					break;
 			}
-			if(!timeup()){
-//				System.out.println("Depth: " + depth);
-//				System.out.println("Value: " + best);
-//				System.out.println("Bestmove: " + cbestmove);
-//				System.out.println("\tNodecount: " + nodecount);
-//				System.out.println("\tCutoffs : " + cutoffs);
-//				System.out.println("\tHashHits : " + hashHits);
-//				System.out.println("\tHashCuts : " + hashCuts);
-//				System.out.println("\tHashBMCuts : " + hashBMCuts);
-//				System.out.println("\tKillerCuts : " + killerCuts);
-			} else {
-				break;
-			}
+			if(timeup()) break;
+			
+			
+			System.out.println("Depth: " + depth);
+			System.out.println("Value: " + best);
+			System.out.println("Bestmove: " + cbestmove);
+			System.out.println("\tNodecount: " + nodecount);
+			System.out.println("\tCutoffs : " + cutoffs);
+			System.out.println("\tHashHits : " + hashHits);
+			System.out.println("\tHashCuts : " + hashCuts);
+			System.out.println("\tHashBMCuts : " + hashBMCuts);
+			System.out.println("\tKillerCuts : " + killerCuts);
+			
+			if(INF < (Math.abs(best) + 100)) break;
 			
 			depth++;
 		}
@@ -114,9 +115,9 @@ public class SuicidePlayer implements ChessPlayer {
 		
 		HashEntry entry = table.lookup(b);
 		if(entry != null){
-//			hashHits++;
+			hashHits++;
 			if(entry.depth >= depth){
-//				hashCuts++;
+				hashCuts++;
 				return entry.value;
 			}
 			if(moves.contains(entry.bestmove)){
@@ -141,13 +142,13 @@ public class SuicidePlayer implements ChessPlayer {
 			addKiller(new KillerMove(m, value), depth);
 			
 			if(beta < alpha) {
-//				cutoffs++;
-//				if(entry != null && entry.bestmove.equals(m)){
-//					hashBMCuts++;
-//				}
-//				if(isKiller(m, depth)){
-//					killerCuts++;
-//				}
+				cutoffs++;
+				if(entry != null && entry.bestmove.equals(m)){
+					hashBMCuts++;
+				}
+				if(isKiller(m, depth)){
+					killerCuts++;
+				}
 				return alpha;
 			}
 		}
@@ -158,14 +159,14 @@ public class SuicidePlayer implements ChessPlayer {
 		
 	}
 	
-//	private boolean isKiller(Move m, int depth){
-//		for(KillerMove km : killerMoves[depth]){
-//			if(km.m.equals(m))
-//				return true;
-//		}
-//		return false;
-//			
-//	}
+	private boolean isKiller(Move m, int depth){
+		for(KillerMove km : killerMoves[depth]){
+			if(km.m.equals(m))
+				return true;
+		}
+		return false;
+			
+	}
 
 	private void bumpMove(Stack<Move> moves, Move move) {
 		if(moves.contains(move))
