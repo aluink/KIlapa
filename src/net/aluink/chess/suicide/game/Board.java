@@ -236,10 +236,11 @@ public class Board {
 
 	public static void printBitboard(long b) {
 		for (int row = 7; row >= 0; row--) {
+			StringBuilder sb = new StringBuilder();
 			for (int col = 0; col < 8; col++) {
-				Logger.Singleton.log(b >> (row * 8 + col) & 1L);
+				sb.append(b >> (row * 8 + col) & 1L);
 			}
-			Logger.Singleton.logn();
+			Logger.Singleton.logn(sb);
 		}
 		Logger.Singleton.logn();
 	}
@@ -421,13 +422,14 @@ public class Board {
 
 	}
 
-	public static void main(String[] args) {
-		int x = -1551892480;
-		for (int i = 31; i >= 0; i--) {
-			Logger.Singleton.log(x >> i & 1);
-		}
-		// Board.printBitboard();
-	}
+//	public static void main(String[] args) {
+//		int x = -1551892480;
+//		for (int i = 31; i >= 0; i--) {
+//			
+//			Logger.Singleton.log(x >> i & 1);
+//		}
+//		// Board.printBitboard();
+//	}
 
 	public long[][] getBitBoards() {
 		return bitboards;

@@ -58,7 +58,7 @@ public class Kilapa {
 			log(str + "\n");
 		}
 		
-		public void log(Object str) {
+		private void log(Object str) {
 			if(mType == LoggerType.ERR) {
 				System.err.print(str);
 			} else if(mType == LoggerType.FILE) {
@@ -148,9 +148,9 @@ public class Kilapa {
 					b.makeMove(m);
 					System.out.println("move " + m);
 				} else if (command.equals("new")) {
-					sp = new SuicidePlayer(b, Color.BLACK);
-					b = new Board();
+					b = new Board();					
 					b.setToStarting();
+					sp = new SuicidePlayer(b, Color.BLACK);
 					// try {
 					// b.setFen("1nbk1bnr/rpp1pppp/8/8/6b1/8/1PPPPPBP/2BQKBNR
 					// b");
