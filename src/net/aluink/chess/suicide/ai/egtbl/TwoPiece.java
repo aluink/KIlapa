@@ -11,6 +11,7 @@ import java.util.Stack;
 import net.aluink.chess.board.Piece;
 import net.aluink.chess.board.Piece.Color;
 import net.aluink.chess.board.Piece.Type;
+import net.aluink.chess.suicide.Kilapa.Logger;
 import net.aluink.chess.suicide.game.Board;
 import net.aluink.chess.suicide.game.Move;
 import net.aluink.chess.suicide.game.lmg.LegalMoveGenerator;
@@ -101,12 +102,13 @@ public class TwoPiece {
 	
 	public static void playWithTable(){
 		LegalMoveGenerator lmg = new SuicideLMG();
-		System.out.println("Load a board: ");
+		Logger.Singleton.logn("Load a board: ");
 		Scanner scanner = new Scanner(System.in);
 		int x = scanner.nextInt();
 		int y = scanner.nextInt();
 		int k = scanner.nextInt();
 		int l = scanner.nextInt();
+		scanner.close();
 		Board b = setupBoard(x,y,k,l);
 		boolean eog = false;
 		while(true){
@@ -114,14 +116,14 @@ public class TwoPiece {
 			
 			b.printBoard();
 			int tmp = table[index[0]][index[1]][index[2]][index[3]];
-			System.out.println("EGTBL value: " + tmp);
+			Logger.Singleton.logn("EGTBL value: " + tmp);
 			Stack<Move> moves = lmg.getLegalMoves(b);
 			Move move = null;
 			for(Move m : moves){
 				b.makeMove(m);
 				index = getBoardIndex(b);
 				if(index[2] == -1 || index[3] == -1){
-					System.out.println("EOG");
+					Logger.Singleton.logn("EOG");
 					eog = true;
 					break;
 				}

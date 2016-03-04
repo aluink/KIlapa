@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Stack;
 import java.util.regex.Pattern;
 
+import net.aluink.chess.suicide.Kilapa.Logger;
 import net.aluink.chess.suicide.game.Board;
 import net.aluink.chess.suicide.game.Move;
 import net.aluink.chess.suicide.game.lmg.LegalMoveGenerator;
@@ -75,6 +76,8 @@ public class PGNParser {
 			}
 		}
 		
+		reader.close();
+		
 		return games;
 	}
 	
@@ -95,7 +98,7 @@ public class PGNParser {
 			games.addAll(parser.parse("gameDb\\" + file));
 		}
 		Map<String, Integer[]> fenResults = new HashMap<String, Integer[]>();
-		System.out.println(games.size() + " games read.");
+		Logger.Singleton.logn(games.size() + " games read.");
 		for(Game g : games){
 			Board b = new Board();
 			b.setToStarting();
@@ -122,7 +125,7 @@ public class PGNParser {
 		for(String key : fenResults.keySet()){
 			Integer [] x = fenResults.get(key);
 			if(x[0] > 125){
-				System.out.println(key + ": " + x[0] + " " + x[1]);
+				Logger.Singleton.logn(key + ": " + x[0] + " " + x[1]);
 			}
 		}
 	}

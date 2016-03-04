@@ -8,6 +8,7 @@ import java.util.Stack;
 import net.aluink.chess.board.Piece;
 import net.aluink.chess.board.Piece.Color;
 import net.aluink.chess.board.Piece.Type;
+import net.aluink.chess.suicide.Kilapa.Logger;
 
 public class Move {
 	int start;
@@ -236,16 +237,16 @@ public class Move {
 			
 		}
 		
-		System.out.println("Ambiguous algebraic move: " + aMove);
-		System.out.println("Narrowed it to ");
+		Logger.Singleton.logn("Ambiguous algebraic move: " + aMove);
+		Logger.Singleton.logn("Narrowed it to ");
 		for(Move m : s){
-			System.out.println("\t" + m);
+			Logger.Singleton.logn("\t" + m);
 		}
-		System.out.println("  from");
+		Logger.Singleton.logn("  from");
 		for(Move m : legalMoves){
-			System.out.println("\t" + m);
+			Logger.Singleton.logn("\t" + m);
 		}
-		System.out.println("on board");
+		Logger.Singleton.logn("on board");
 		b.printBoard();
 		
 		return null;

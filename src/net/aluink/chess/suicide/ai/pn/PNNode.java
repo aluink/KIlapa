@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import net.aluink.chess.board.Piece.Color;
+import net.aluink.chess.suicide.Kilapa.Logger;
 import net.aluink.chess.suicide.ai.SuicidePlayer;
 import net.aluink.chess.suicide.game.Board;
 import net.aluink.chess.suicide.game.Move;
@@ -105,7 +106,7 @@ public class PNNode {
 		board.makeMove(m);		
 		root.store(dos, board, nodes, Color.BLACK);
 		dos.close();
-		System.out.println();
+		Logger.Singleton.logn();
 	}
 	
 }

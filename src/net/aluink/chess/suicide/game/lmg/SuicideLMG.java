@@ -7,6 +7,7 @@ import java.util.Stack;
 
 import net.aluink.chess.board.Piece.Color;
 import net.aluink.chess.board.Piece.Type;
+import net.aluink.chess.suicide.Kilapa.Logger;
 import net.aluink.chess.suicide.game.Board;
 import net.aluink.chess.suicide.game.Move;
 import net.aluink.chess.suicide.game.lmg.bitboards.Magic;
@@ -381,18 +382,7 @@ public class SuicideLMG implements LegalMoveGenerator {
 	public static void main(String[] args) {
 		for(int i = 0;i < 64;i++){
 			Board.printBitboard(SuicideLMG.kingMasks[i]);
-			System.out.println();
+			Logger.Singleton.logn();
 		}
-	}
-	
-//	public static void main(String[] args) {
-//		System.out.println("{");
-//		for(int start = 0;start < 64;start++){
-//			long b = 0L;
-//			
-//			System.out.println(b + "L,");
-//		}
-//		System.out.println("};");
-//	}
-	
+	}	
 }

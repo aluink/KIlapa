@@ -5,6 +5,7 @@ import java.util.Queue;
 import java.util.Stack;
 
 import net.aluink.chess.board.Piece.Color;
+import net.aluink.chess.suicide.Kilapa.Logger;
 import net.aluink.chess.suicide.game.Board;
 import net.aluink.chess.suicide.game.Move;
 import net.aluink.chess.suicide.game.lmg.LegalMoveGenerator;
@@ -159,14 +160,14 @@ public class PNSearch {
 		int n = node.firstChild;
 		
 		if(board.getTurn() == rootColor){
-			for(int i = 0;n >= 0;n = NODES[n].sibling, i++){
+			for(;n >= 0;n = NODES[n].sibling){
 				PNNode tmp = NODES[n];
 				if(tmp.proof == node.proof){
 					break;
 				}
 			}
 		} else {
-			for(int i = 0;n >= 0;n = NODES[n].sibling, i++){
+			for(;n >= 0;n = NODES[n].sibling){
 				PNNode tmp = NODES[n];
 				if(tmp.disproof == node.disproof){
 					break;
@@ -174,7 +175,7 @@ public class PNSearch {
 			}
 		}
 		if(n == -1){
-			System.out.println("Error in FMP, printing state");
+			Logger.Singleton.logn("Error in FMP, printing state");
 			PNNode tmpNode = node;
 			Queue<PNNode> q = new LinkedList<PNNode>();
 			q.add(tmpNode);
@@ -184,14 +185,14 @@ public class PNSearch {
 			}
 			while(!q.isEmpty()){
 				tmpNode = q.remove();
-				System.out.println(tmpNode);
+				Logger.Singleton.logn(tmpNode);
 			}
-			System.out.println();
+			Logger.Singleton.logn();
 			while(!board.atBeginning()){
 				board.printBoard();
 				board.unmakeMove();
 			}
-			System.out.println();
+			Logger.Singleton.logn();
 		}
 //		try {
 			PNNode t = NODES[n];
@@ -199,7 +200,7 @@ public class PNSearch {
 			board.makeMove(m);
 			return findMostProvingNode(n);
 //		} catch (Exception e) {
-//			System.out.println("Error in FMP, printing state");
+//			Kilapa.Log("Error in FMP, printing state");
 //			PNNode tmpNode = node;
 //			Queue<PNNode> q = new LinkedList<PNNode>();
 //			q.add(tmpNode);
@@ -209,16 +210,16 @@ public class PNSearch {
 //			}
 //			while(!q.isEmpty()){
 //				tmpNode = q.remove();
-//				System.out.println(tmpNode);
+//				Kilapa.Log(tmpNode);
 //			}
-//			System.out.println();
+//			Kilapa.Log();
 //			while(!board.atBeginning()){
 //				board.printBoard();
 //				board.unmakeMove();
 //			}
-//			System.out.println();
+//			Kilapa.Log();
 //			e.printStackTrace();
-//			System.out.println("Exiting");
+//			Kilapa.Log("Exiting");
 //			System.exit(1);
 //			return -1;
 //		}

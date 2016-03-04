@@ -1,10 +1,5 @@
 package net.aluink.chess.suicide.game.lmg.bitboards;
 
-import net.aluink.chess.suicide.game.Board;
-
-
-
-
 public class Magic {
 	
 	public long mask;

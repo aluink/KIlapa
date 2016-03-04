@@ -6,6 +6,7 @@ import java.util.Stack;
 
 import net.aluink.chess.board.Piece;
 import net.aluink.chess.board.Piece.Color;
+import net.aluink.chess.suicide.Kilapa.Logger;
 import net.aluink.chess.suicide.game.Board;
 import net.aluink.chess.suicide.game.Move;
 import net.aluink.chess.suicide.game.lmg.SuicideLMG;
@@ -77,15 +78,15 @@ public class SuicidePlayer implements ChessPlayer {
 			if(timeup()) break;
 			
 			
-			System.out.println("Depth: " + depth);
-			System.out.println("Value: " + best);
-			System.out.println("Bestmove: " + cbestmove);
-			System.out.println("\tNodecount: " + nodecount);
-			System.out.println("\tCutoffs : " + cutoffs);
-			System.out.println("\tHashHits : " + hashHits);
-			System.out.println("\tHashCuts : " + hashCuts);
-			System.out.println("\tHashBMCuts : " + hashBMCuts);
-			System.out.println("\tKillerCuts : " + killerCuts);
+			Logger.Singleton.logn("Depth: " + depth);
+			Logger.Singleton.logn("Value: " + best);
+			Logger.Singleton.logn("Bestmove: " + cbestmove);
+			Logger.Singleton.logn("\tNodecount: " + nodecount);
+			Logger.Singleton.logn("\tCutoffs : " + cutoffs);
+			Logger.Singleton.logn("\tHashHits : " + hashHits);
+			Logger.Singleton.logn("\tHashCuts : " + hashCuts);
+			Logger.Singleton.logn("\tHashBMCuts : " + hashBMCuts);
+			Logger.Singleton.logn("\tKillerCuts : " + killerCuts);
 			
 			if(INF < (Math.abs(best) + 100)) break;
 			
@@ -95,10 +96,9 @@ public class SuicidePlayer implements ChessPlayer {
 		if(bestmove == null)
 			bestmove = moves.get(0);
 		
-		System.out.println("NPS: " + (1000 * nodecount) / (System.currentTimeMillis() - starttime));
-		System.out.println("Bestmove: " + bestmove);
-		return bestmove;
-		
+		Logger.Singleton.logn("NPS: " + (1000 * nodecount) / (System.currentTimeMillis() - starttime));
+		Logger.Singleton.logn("Bestmove: " + bestmove);
+		return bestmove;		
 	}
 
 	private int search(int depth, int alpha, int beta) {

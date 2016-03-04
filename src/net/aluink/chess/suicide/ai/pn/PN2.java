@@ -4,11 +4,9 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Stack;
 
 import net.aluink.chess.board.Piece.Color;
+import net.aluink.chess.suicide.Kilapa.Logger;
 import net.aluink.chess.suicide.ai.SuicidePlayer;
 import net.aluink.chess.suicide.ai.book.BookNode;
 import net.aluink.chess.suicide.game.Board;
@@ -95,11 +93,11 @@ public class PN2 extends PNSearch {
 		int arrayOffset = 1;
 		long subtreeSize;
 		long startTime = System.currentTimeMillis();
-		System.out.println("PN2 searching " + maxNodecount);
+		Logger.Singleton.logn("PN2 searching " + maxNodecount);
 		while(root.proof != 0 && root.disproof != 0){
 			subtreeSize = subTreeSize(arrayOffset);
 			if(System.currentTimeMillis() - time > 60000){	
-				System.out.println(root.proof + " " + root.disproof + " " + arrayOffset + " " + subtreeSize + " " + total_nodecount + " " + (((total_nodecount-tmpcount) * 1000)/(System.currentTimeMillis() - time)));
+				Logger.Singleton.logn(root.proof + " " + root.disproof + " " + arrayOffset + " " + subtreeSize + " " + total_nodecount + " " + (((total_nodecount-tmpcount) * 1000)/(System.currentTimeMillis() - time)));
 				tmpcount = total_nodecount;
 				time = System.currentTimeMillis();
 			}
@@ -118,9 +116,9 @@ public class PN2 extends PNSearch {
 			
 			updateNodes(node);
 		}
-		System.out.println("Done.");
-		System.out.println(root.proof + " " + root.disproof + " " + arrayOffset + " " + " " + total_nodecount + " " + (((total_nodecount-tmpcount) * 1000)/(System.currentTimeMillis() - time)));
-		System.out.println("Done in " + (System.currentTimeMillis() - startTime)/1000 + "s");
+		Logger.Singleton.logn("Done.");
+		Logger.Singleton.logn(root.proof + " " + root.disproof + " " + arrayOffset + " " + " " + total_nodecount + " " + (((total_nodecount-tmpcount) * 1000)/(System.currentTimeMillis() - time)));
+		Logger.Singleton.logn("Done in " + (System.currentTimeMillis() - startTime)/1000 + "s");
 	}
 	
 	public static void main(String[] args) throws Exception {
@@ -128,7 +126,7 @@ public class PN2 extends PNSearch {
 		b.setFen(args[1]);
 		b.printBoard();
 		PN2 pn2 = new PN2();
-		System.out.println(args[0]);
+		Logger.Singleton.logn(args[0]);
 		int nc = Integer.valueOf(args[0]);
 		pn2.pn2Search(b, nc, new SuicideLMG());
 		
@@ -137,7 +135,7 @@ public class PN2 extends PNSearch {
 			filename = args[2];
 		} catch (Exception e) {
 			filename = System.currentTimeMillis()%1000 + ".pnr";
-			System.out.println("No filename provided, storing to " + filename);
+			Logger.Singleton.logn("No filename provided, storing to " + filename);
 		}
 		
 		DataOutputStream dos = new DataOutputStream(new FileOutputStream(filename));
@@ -155,31 +153,31 @@ public class PN2 extends PNSearch {
 
 	
 	
-	private void printResults(FileWriter fr, int index, int offset) throws IOException {
-		int itr = NODES[index].firstChild;
-		if(itr == -1)
-			return;
-		PNNode tmp = NODES[itr];
-		StringBuilder sb = new StringBuilder("");
-		for(int i = 0;i < offset;i++){
-			sb.append(" ");
-		}
-		String padding = sb.toString();
-		Stack<Move> moves = lmg.getLegalMoves(board);
-		for(Move m : moves){
-			if(tmp.proof == 0){
-				fr.write(padding + m);
-				fr.write("\r\n");
-				board.makeMove(m);
-				printResults(fr, itr, offset+1);
-				board.unmakeMove();
-			}
-			itr = tmp.sibling;
-			if(itr != -1)
-				tmp = NODES[itr];
-		}
-		
-	}
+//	private void printResults(FileWriter fr, int index, int offset) throws IOException {
+//		int itr = NODES[index].firstChild;
+//		if(itr == -1)
+//			return;
+//		PNNode tmp = NODES[itr];
+//		StringBuilder sb = new StringBuilder("");
+//		for(int i = 0;i < offset;i++){
+//			sb.append(" ");
+//		}
+//		String padding = sb.toString();
+//		Stack<Move> moves = lmg.getLegalMoves(board);
+//		for(Move m : moves){
+//			if(tmp.proof == 0){
+//				fr.write(padding + m);
+//				fr.write("\r\n");
+//				board.makeMove(m);
+//				printResults(fr, itr, offset+1);
+//				board.unmakeMove();
+//			}
+//			itr = tmp.sibling;
+//			if(itr != -1)
+//				tmp = NODES[itr];
+//		}
+//		
+//	}
 
 	private long subTreeSize(long nodecount) {
 		double d =  (1 / (1 + Math.exp((A - nodecount)/B)));

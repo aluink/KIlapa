@@ -3,7 +3,6 @@ package net.aluink.chess.suicide.ai.book;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.aluink.chess.board.Piece.Color;
+import net.aluink.chess.suicide.Kilapa.Logger;
 import net.aluink.chess.suicide.ai.SuicidePlayer;
 import net.aluink.chess.suicide.game.Board;
 import net.aluink.chess.suicide.game.Move;
@@ -157,7 +157,7 @@ public class BookNode {
 				load(dis);
 				
 			} catch (Exception e) {
-				System.out.println("Unable to open: " + fn);
+				Logger.Singleton.logn("Unable to open: " + fn);
 			} finally {
 				if(dis != null) dis.close();
 			}
@@ -219,9 +219,9 @@ public class BookNode {
 		BookNode tmpRoot = new BookNode();
 		tmpRoot.load(dis);
 		dis.close();
-		System.out.println("Done");
+		Logger.Singleton.logn("Done");
 		BookNode bn = BookNode.getBookNode("5Fen");
-		System.out.println(bn.score);
+		Logger.Singleton.logn(bn.score);
 	}
 	
 }
