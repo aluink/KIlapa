@@ -118,29 +118,38 @@ public class Kilapa {
 				if (b != null) {
 					moves = lgm.getLegalMoves(b);
 					b.printBoard();
-				}
-				if (moves.size() == 0) {
-					sp = null;
-				}
-				if (sp != null && sp.getSide() == b.getTurn()) {
-					PNSearch pn = new PNSearch();
-					pn.search(b, 400000, new SuicideLMG());
-					Move m;
-					if (pn.getProof() == 0) {
-						m = moves.elementAt(pn.getWinningChild());
-					} else {
-						m = sp.getMove();
+					if (moves.size() == 0) {
+						sp = null;
+						int count = b.getWhitePieceCount();
+						int whites = count / 100;
+						int blacks = count % 100;
+						if(whites > blacks) System.out.println("0-1 {Black mates}");
+						else if(whites < blacks) System.out.println("1-0 {White mates}");
+						else if(whites == blacks) System.out.println("1/2-1/2 {Stalemate}");
 					}
-					Logger.Singleton.logn("Engine plays: " + m);
-					b.makeMove(m);
-					System.out.println("move " + m);
-					continue;
+					if (sp != null && sp.getSide() == b.getTurn()) {
+						PNSearch pn = new PNSearch();
+						pn.search(b, 400000, new SuicideLMG());
+						Move m;
+						if (pn.getProof() == 0) {
+							m = moves.elementAt(pn.getWinningChild());
+						} else {
+							m = sp.getMove();
+						}
+						Logger.Singleton.logn("Engine plays: " + m);
+						b.makeMove(m);
+						System.out.println("move " + m);
+						continue;
+					}
 				}
+				
 
 				command = br.readLine();
 				Logger.Singleton.logn("Got command: " + command);
 				if (command.equals("quit")) {
 					break;
+				} else if(command.equals("force")){
+					if(sp != null) sp.setSide(null);
 				} else if (command.equals("go")) {
 					if (sp == null)
 						sp = new SuicidePlayer(b, b.getTurn());
@@ -151,12 +160,6 @@ public class Kilapa {
 					b = new Board();					
 					b.setToStarting();
 					sp = new SuicidePlayer(b, Color.BLACK);
-					// try {
-					// b.setFen("1nbk1bnr/rpp1pppp/8/8/6b1/8/1PPPPPBP/2BQKBNR
-					// b");
-					// } catch (Exception e) {
-					// e.printStackTrace();
-					// }
 					continue;
 				} else if (command.equals("undo")) {
 					b.unmakeMove();
@@ -168,7 +171,6 @@ public class Kilapa {
 					try {
 						b = new Board();
 						b.setFen(fen);
-						// b.printBoard();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

@@ -309,15 +309,18 @@ public class Board {
 			Logger.Singleton.logn(sb.toString());
 			sb = new StringBuilder();
 		}
-		sb.append("   ");
+		sb.append("  ");
 		for (int col = 0; col < 8; col++) {
 			sb.append("+---");
 		}
-		Logger.Singleton.logn();
-		sb.append("   ");
+		sb.append("+");
+		Logger.Singleton.logn(sb);
+		sb = new StringBuilder();
+		sb.append("  ");
 		for (int col = 0; col < 8; col++) {
 			sb.append("  " + (char) ('A' + col) + " ");
 		}
+		Logger.Singleton.logn(sb);
 		Logger.Singleton.logn("Turn: " + (turn == Color.WHITE ? "White" : "Black"));
 		Logger.Singleton.logn("%X %X\n", hash[0], hash[1]);
 		Logger.Singleton.logn("Fen: " + getFen());
@@ -397,9 +400,9 @@ public class Board {
 				throw new Exception("Invalid fen notation: " + fen);
 		}
 		char c = fen.charAt(i++);
-		if (Character.valueOf(c).equals('w')) {
+		if (c == 'w') {
 			turn = Color.WHITE;
-		} else if (Character.valueOf(c).equals('b')) {
+		} else if (c == 'b') {
 			turn = Color.BLACK;
 			hash[0] = hashturns[0];
 			hash[1] = hashturns[1];
@@ -437,6 +440,17 @@ public class Board {
 
 	public boolean atBeginning() {
 		return moves.isEmpty();
+	}
+
+	public int getWhitePieceCount() {
+		int v = 0;
+		for(int i = 0; i < 64;i++){
+			if(pos[i] == null) continue;
+			else if(pos[i].getColor()== Color.BLACK) v++;
+			else if(pos[i].getColor() == Color.WHITE) v += 100;
+		}
+		return v;
+		
 	}
 
 }

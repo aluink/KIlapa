@@ -196,6 +196,10 @@ public class SuicidePlayer implements ChessPlayer {
 		return score;
 	}
 
+	public void setSide(Color c) {
+		this.c = c;
+	}
+	
 	public Color getSide() {
 		return c;
 	}
