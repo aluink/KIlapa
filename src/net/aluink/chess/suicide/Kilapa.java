@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.Scanner;
 import java.util.Stack;
 
 import net.aluink.chess.board.Piece.Color;
@@ -104,17 +105,122 @@ public class Kilapa {
 			return true;
 		return false;
 	}
+	
+	public Move convertUserMove(String input){
+		int scol = input.charAt(0) - 'a';
+		int srow = input.charAt(1) - '1';
+		int ecol = input.charAt(2) - 'a';
+		int erow = input.charAt(3) - '1';
+		int start = srow * 8 + scol;
+		int end = erow * 8 + ecol;
+		return validMove(start, end) ? new Move(start, end) : null;
+	}
 
-	public static void main(String[] args) throws IOException {
+	private String xboardMode(Scanner s, LegalMoveGenerator lmg, SuicidePlayer sp) {	
+		/* COMMAND *
+		 * 
+		 * **********************
+		 * COMMANDS FROM XBOARD *
+		 * ********************** 
+		 * https://www.gnu.org/software/xboard/engine-intf.html#8
+		 * 
+		 * xboard - put in xboard mode
+		 * protover N - ignored
+		 * variant NAME - ignored
+		 * quit
+		 * random
+		 * force
+		 * go
+		 * playother
+		 * white
+		 * black
+		 * level MPS BASE INC
+		 * st TIME
+		 * sd DEPTH
+		 * nps NODE_RATE
+		 * time N
+		 * otim N
+		 * MOVE
+		 * usermove MOVE
+		 * ?
+		 * ping N
+		 * draw
+		 * result RESULT {COMMENT}
+		 * setboard FEN
+		 * edit
+		 * hint
+		 * bk
+		 * undo
+		 * remove
+		 * hard
+		 * easy
+		 * post
+		 * nopost
+		 * analyze
+		 * name X
+		 * rating 
+		 * ics HOSTNAME
+		 * computer
+		 * pause
+		 * resume
+		 * memory N
+		 * core N
+		 * egtpath TYPE PATH
+		 * option NAME{=VALUE}
+		 * exclude MOVE
+		 * include MOVE
+		 * exclude all
+		 * include all
+		 * setscore SCORE DEPTH
+		 * life SQUARE
+		 * put SQUARE
+		 * hover SQUARE
+		 * 
+		 */
+		String command;
 		Board b = null;
-		LegalMoveGenerator lgm = new SuicideLMG();
+		while(true) {
+			command = s.nextLine();
+			if(command.equals("quit")){
+				return "quit";
+			} else if(command.equals("new")){
+				b = new Board();
+				b.setTurn(Color.WHITE);
+				sp = new SuicidePlayer(b, Color.BLACK);
+			} else {
+				Move m = convertUserMove(command);
+				if(m != null){
+					b.makeMove(m);
+				}
+			}
+		}
+	}
+	
+	public Kilapa() throws IOException {
+		Board b = null;
+		LegalMoveGenerator lmg = new SuicideLMG();
 		SuicidePlayer sp = null;
 		Stack<Move> moves = new Stack<Move>();
 		Magic.init();
 		String command;
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		Scanner s = new Scanner(System.in);
 		try {
 			while (true) {
+				command = s.nextLine();
+				if(command.equals("xboard")) {
+					command = xboardMode(s, lmg, sp);
+				}
+				
+				if(command.equals("quit")){
+					return;
+				}
+				
+				
+					
+				
+				
+				
+				/*
 				if (b != null) {
 					moves = lgm.getLegalMoves(b);
 					b.printBoard();
@@ -209,12 +315,17 @@ public class Kilapa {
 						System.err.println(e.getMessage());
 					}
 				}
+				*/
 			}
 		} finally {
 			Logger.Singleton.close();
 		}
 	}
 
+	public static void main(String[] args) throws IOException {
+		new Kilapa();
+	}
+	
 	private static boolean validMove(int start, int end) {
 		return start >= 0 && start < 64 && end >= 0 && end < 64;
 	}
