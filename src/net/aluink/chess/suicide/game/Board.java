@@ -189,6 +189,7 @@ public class Board {
 	// }
 
 	public void makeMove(Move m) {
+		
 		MoveInfo mi = new MoveInfo(m, pos[m.getEnd()]);
 
 		if (m.ep) {

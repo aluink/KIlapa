@@ -23,6 +23,7 @@ public class SuicidePlayer implements ChessPlayer {
 	long nodecount;
 	long cutoffs, hashHits, hashCuts, hashBMCuts, killerCuts;
 	boolean timeupflag;
+	boolean post = false;
 	
 	Hashtable table = new Hashtable(20000);
 	PriorityQueue<KillerMove> killerMoves [];
@@ -42,10 +43,26 @@ public class SuicidePlayer implements ChessPlayer {
 		}
 	}
 	
+	public boolean isPost() {
+		return post;
+	}
+
+	public void setPost(boolean post) {
+		this.post = post;
+	}
+
 	private void addKiller(KillerMove move, int depth){
 		killerMoves[depth].add(move);
 		if(killerMoves[depth].size() > KILLER_COUNT)
 			killerMoves[depth].remove();
+	}
+	
+	public void makeMove(){
+		Move m = getMove();
+		if(m != null) {
+			b.makeMove(m);
+			System.out.println("move " + m);
+		}
 	}
 	
 	@Override
@@ -87,6 +104,8 @@ public class SuicidePlayer implements ChessPlayer {
 			Logger.Singleton.logn("\tHashCuts : " + hashCuts);
 			Logger.Singleton.logn("\tHashBMCuts : " + hashBMCuts);
 			Logger.Singleton.logn("\tKillerCuts : " + killerCuts);
+			if(post) System.out.println(depth + " " + best + " " + getCurrentTime()/10 + " " + nodecount + " " + cbestmove);
+			
 			
 			if(INF < (Math.abs(best) + 100)) break;
 			
@@ -173,6 +192,10 @@ public class SuicidePlayer implements ChessPlayer {
 			moves.push(moves.remove(moves.indexOf(move)));
 	}
 
+	long getCurrentTime() {
+		return System.currentTimeMillis() - starttime;
+	}
+	
 	private boolean timeup() {
 		if(timeupflag)
 			return true;
